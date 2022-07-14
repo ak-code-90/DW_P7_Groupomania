@@ -1,11 +1,9 @@
+import React from 'react';
+import LoginCard from "./LoginCard";
 
 
-function App() {
-  return (
-    <div>
-      
-    </div>
-  );
+const App = () => {
+  return <LoginCard />
 }
 
-export default App;
+export default App 

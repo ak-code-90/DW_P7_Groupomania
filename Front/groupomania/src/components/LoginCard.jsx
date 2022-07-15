@@ -30,7 +30,7 @@ const LoginCard = () => {
               maxlength="40"
               size="35"
             />
-            <a href="#">Mot de passe oublié ?</a>
+            <a href="/#">Mot de passe oublié ?</a>
             <input type="submit" value="Envoyer" />
 
             <span>

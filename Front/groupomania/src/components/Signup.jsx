@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import iconLight from '../assets/iconLight.png';
-import '../styles/loginCard.css';
+import '../styles/signup.css';
 
 const Signup = () => {
   return (

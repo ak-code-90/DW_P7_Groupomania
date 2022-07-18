@@ -1,10 +1,10 @@
 import React from 'react';
-import MainPage from '../components/MainPage';
+import Header from '../components/Header.jsx';
 
 const LandingPage = () => {
   return (
     <div>
-      <MainPage />
+      <Header />
     </div>
   );
 };

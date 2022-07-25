@@ -5,7 +5,7 @@ import iconLight from '../assets/iconLight.png';
 
 const NavContainer = styled.nav`
   background-color: #fff;
-  height: 100px;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,10 +33,9 @@ const NavContainer = styled.nav`
 
   @media screen and (max-width: 550px) {
     flex-direction: column;
-    /* gap: 30px; */
+
     div {
       flex-direction: column-reverse;
-      /* gap: 30px; */
       width: 90%;
     }
     div a {
@@ -59,7 +58,7 @@ const Header = () => {
       <img src={iconLight} alt="" />
       <div>
         <Link to="/#">Mon profil</Link>
-        <Link to="/signup">Se déconnecter</Link>
+        <Link to="/">Se déconnecter</Link>
       </div>
     </NavContainer>
   );

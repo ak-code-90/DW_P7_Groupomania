@@ -97,6 +97,7 @@ const StyledPostWapper = styled.div`
       color: #fff;
     }
     img {
+      object-fit: cover;
       border-radius: 8px;
       margin: 10px;
       height: 400px;

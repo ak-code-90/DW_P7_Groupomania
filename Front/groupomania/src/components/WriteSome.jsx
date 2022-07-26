@@ -100,23 +100,20 @@ const WriteSome = () => {
 
   // const [username, serUsername] = useState('');                       //faire en sorte que ces states soient globals pour les récupérer depuis la DB lors du login
   // const [userPic, serUserPic] = useState([]);
-  let postData = {};
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    postData = {
-      username: '',
-      userPic: '',
-      postText: postTxt,
-      image: postImg,
-    };
-    console.log(postData);
+    const formData = new FormData();
+    formData.append('postImg', postImg);
+    formData.append('postText', postTxt);
+
+    console.log(formData);
 
     axios
-      .post('http://localhost:5000/posts', postData)
+      .post('http://localhost:5000/posts', formData)
       .then((response) => console.log('message posté !'))
-      // .then(document.location.reload()) //il faut créer un state global qui va rerender la postbox.jsx lors du submit
+      .then(document.location.reload()) //il faut créer un state global qui va rerender la postbox.jsx lors du submit
       .catch((error) => console.log(error));
   };
 
@@ -133,7 +130,7 @@ const WriteSome = () => {
       <div className="iconsSubmitWrapper">
         <form
           onSubmit={handleSubmit}
-          action="/posts"
+          action="/"
           method="POST"
           encType="multipart/form-data"
         >

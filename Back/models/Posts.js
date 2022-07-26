@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        postImg: {
-            type: DataTypes.BLOB,
+        image: {
+            type: DataTypes.STRING,
             allowNull: true
         },
         username: {

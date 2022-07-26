@@ -96,7 +96,7 @@ const StyledWrapper = styled.div`
 
 const WriteSome = () => {
   const [postTxt, setPostTxt] = useState('');
-  const [postImg, setPostImg] = useState([]); //changer ce state dans le type nécéssaire pour poster une image
+  const [postImg, setPostImg] = useState(''); //changer ce state dans le type nécéssaire pour poster une image
 
   // const [username, serUsername] = useState('');                       //faire en sorte que ces states soient globals pour les récupérer depuis la DB lors du login
   // const [userPic, serUserPic] = useState([]);
@@ -109,7 +109,7 @@ const WriteSome = () => {
       username: '',
       userPic: '',
       postText: postTxt,
-      postImg: postImg,
+      image: postImg,
     };
     console.log(postData);
 
@@ -131,7 +131,12 @@ const WriteSome = () => {
         rows="6"
       ></textarea>
       <div className="iconsSubmitWrapper">
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          action="/posts"
+          method="POST"
+          encType="multipart/form-data"
+        >
           <div className="iconWrapper">
             <label htmlFor="file-input">
               <FontAwesomeIcon className="imgIcon" icon={faImage} />
@@ -139,7 +144,7 @@ const WriteSome = () => {
             </label>
             <input
               onChange={(e) => setPostImg(e.target.files[0])}
-              name=" "
+              name="image"
               id="file-input"
               type="file"
               accept="image/*"

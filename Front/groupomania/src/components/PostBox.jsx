@@ -8,33 +8,33 @@ import axios from 'axios';
 
 const PostList = [
   {
-    userName: 'xxxtentacion',
-    textPosted: 'LOVE IS WAR',
-    imgPosted:
+    username: 'xxxtentacion',
+    postText: 'LOVE IS WAR',
+    postImg:
       'https://cdn5.beatstars.com/eyJidWNrZXQiOiJidHMtY29udGVudCIsImtleSI6InVzZXJzL3Byb2QvNTE0MTMyL2ltYWdlL01XRVU3WUxjNVVJTS8xNDMwNTI1LkpQRyIsInRpbWVzdGFtcCI6bnVsbCwiZWRpdHMiOnsicmVzaXplIjp7ImZpdCI6bnVsbCwid2lkdGgiOjcwMCwiaGVpZ2h0Ijo3MDB9fX0=?t=1652479038207',
     userPic: 'https://i1.sndcdn.com/artworks-000488281908-i8gu5x-t500x500.jpg',
   },
   {
-    userName: 'elonmusk',
-    textPosted: "Next I'm buying Coca-Cola to put the cocaine back in",
+    username: 'elonmusk',
+    postText: "Next I'm buying Coca-Cola to put the cocaine back in",
     userPic:
       'https://pbs.twimg.com/media/FXrRFQLUIAEp0NZ?format=jpg&name=4096x4096',
   },
   {
-    userName: 'billieeilish',
+    username: 'billieeilish',
     userPic:
       'https://i.pinimg.com/originals/b1/68/d8/b168d83208b00d003f3d227b5c7f7e70.jpg',
-    textPosted:
+    postText:
       'custom trench coat and corset by @burberry, boots by @muglerofficial, gloves by @thomasinegloves, jewelry by @anitakojewelry',
-    imgPosted:
+    postImg:
       'https://ancre-magazine.com/wp-content/uploads/2021/05/billie-eilish-vogue-00.jpg',
   },
   {
-    userName: 'tomholland2013',
+    username: 'tomholland2013',
     userPic: 'https://pbs.twimg.com/media/ElNEF9iXEAAQV0V.jpg',
-    textPosted:
+    postText:
       'My MJ, have the happiest of birthdays. Gimme a call when your up xxx',
-    imgPosted: 'https://pbs.twimg.com/media/FULUFjRXEAchmAv.jpg',
+    postImg: 'https://pbs.twimg.com/media/FULUFjRXEAchmAv.jpg',
   },
 ];
 
@@ -166,44 +166,55 @@ const PostBox = () => {
   useEffect(() => {
     axios
       .get('http://localhost:5000/posts')
-      .then((response) => setListOfPosts(response.data));
+      .then((response) => setListOfPosts(response.data))
+      .catch((error) => console.log(error));
   }, []);
 
-  return listOfPosts.map((post, index) => (
-    <div>
-      <StyledPostWapper key={`${post.username}-${index}`}>
-        <div className="iconWrapper">
-          {post.userPic ? (
-            <img className="userPic" src={post.userPic} alt=" " />
-          ) : (
-            <FontAwesomeIcon className="userIconImg" icon={faUser} />
-          )}
-          <FontAwesomeIcon className="userIconImg" icon={faHeart} />
-        </div>
-        <div className="textWrapper">
-          <ul className="contentContainer" id="contentContainer">
-            <li>
-              <span>{post.username}</span>
-            </li>
-            <li>
-              <p>{post.postText}</p>
-            </li>
-            <li>{post.imgPosted && <img src={post.imgPosted} alt=" " />}</li>
-          </ul>
-        </div>
-      </StyledPostWapper>
+  return listOfPosts
+    .slice(0)
+    .reverse()
+    .map((post) => (
+      <div key={post.id}>
+        <StyledPostWapper>
+          <div className="iconWrapper">
+            {post.userPic ? (
+              <img className="userPic" src={post.userPic} alt=" " />
+            ) : (
+              <FontAwesomeIcon className="userIconImg" icon={faUser} />
+            )}
+            <FontAwesomeIcon className="userIconImg" icon={faHeart} />
+          </div>
+          <div className="textWrapper">
+            <ul className="contentContainer" id="contentContainer">
+              <li>
+                {post.username === 'Mr Admin' ? (
+                  <span style={{ color: colors.tertiary }}>
+                    {post.username}
+                  </span>
+                ) : (
+                  <span>{post.username}</span>
+                )}
+              </li>
+              <li>
+                <p>{post.postText}</p>
+              </li>
 
-      <StyledCommentsWrapper className="writeCommentsWrapper">
-        <FontAwesomeIcon className="userIconImg" icon={faUser} />
-        <input
-          type="textarea"
-          placeholder="Ajouter un commentaire..."
-          className="commentsTextarea"
-        />
-        <input className="commentSubmit" type="submit" value="Publier" />
-      </StyledCommentsWrapper>
-    </div>
-  ));
+              <li>{post.imgPosted && <img src={post.postImg} alt=" " />}</li>
+            </ul>
+          </div>
+        </StyledPostWapper>
+
+        <StyledCommentsWrapper className="writeCommentsWrapper">
+          <FontAwesomeIcon className="userIconImg" icon={faUser} />
+          <input
+            type="textarea"
+            placeholder="Ajouter un commentaire..."
+            className="commentsTextarea"
+          />
+          <input className="commentSubmit" type="submit" value="Publier" />
+        </StyledCommentsWrapper>
+      </div>
+    ));
 };
 
 export default PostBox;

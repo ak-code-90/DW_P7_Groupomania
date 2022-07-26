@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceGrin, faImage } from '@fortawesome/free-solid-svg-icons';
 import colors from '../utils/colors';
 import { useState } from 'react';
+import axios from 'axios';
 
 const StyledWrapper = styled.div`
   background-color: grey;
@@ -95,14 +96,28 @@ const StyledWrapper = styled.div`
 
 const WriteSome = () => {
   const [postTxt, setPostTxt] = useState('');
-  const [postImg, setPostImg] = useState([]);
+  const [postImg, setPostImg] = useState([]); //changer ce state dans le type nécéssaire pour poster une image
+
+  // const [username, serUsername] = useState('');                       //faire en sorte que ces states soient globals pour les récupérer depuis la DB lors du login
+  // const [userPic, serUserPic] = useState([]);
   let postData = {};
 
   const handleSubmit = (e) => {
-    console.log(55);
     e.preventDefault();
-    postData = { post: postTxt, image: postImg };
+
+    postData = {
+      username: '',
+      userPic: '',
+      postText: postTxt,
+      postImg: postImg,
+    };
     console.log(postData);
+
+    axios
+      .post('http://localhost:5000/posts', postData)
+      .then((response) => console.log('message posté !'))
+      // .then(document.location.reload()) //il faut créer un state global qui va rerender la postbox.jsx lors du submit
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -124,7 +139,7 @@ const WriteSome = () => {
             </label>
             <input
               onChange={(e) => setPostImg(e.target.files[0])}
-              name="postImg"
+              name=" "
               id="file-input"
               type="file"
               accept="image/*"

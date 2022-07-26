@@ -4,7 +4,14 @@
     "password": "0502",
     "database": "Groupomania",
     "host": "localhost",
-    "dialect": "mariadb"
+    "dialect": "mariadb",
+    "dialectOptions": {
+      "typeCast": true ,
+      "dateStrings": true
+    },
+    "timezone": "Europe/Paris" 
+    
+    
   },
   "test": {
     "username": "root",

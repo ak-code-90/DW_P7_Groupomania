@@ -199,7 +199,6 @@ const PostBox = () => {
               <li>
                 <p>{post.postText}</p>
               </li>
-              {console.log(post.image)}
               <li>
                 {post.image && (
                   <img src={`http://localhost:5000/${post.image}`} alt="" />

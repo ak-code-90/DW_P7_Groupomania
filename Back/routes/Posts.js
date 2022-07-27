@@ -5,14 +5,8 @@ const upload = require('../middlewares/multer-config')
 
 const PostCtrl = require('../controllers/posts')
 
-// router.post('/', multer, PostCtrl.createPost);
-router.post('/', upload,
-    PostCtrl.createPost
-);
 
-
-
-
+router.post('/', upload, PostCtrl.createPost);
 router.get('/', PostCtrl.getAllPosts);
 
 module.exports = router;

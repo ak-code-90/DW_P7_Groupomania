@@ -125,7 +125,6 @@ const Signup = () => {
         password: firstpasswordVal,
       };
       let data = JSON.stringify(userData);
-      console.log(data);
 
       fetch('http://localhost:5000/register', {
         method: 'POST',
@@ -139,7 +138,7 @@ const Signup = () => {
           return response.json();
         })
         .then(function (value) {
-          console.log(value);
+          // console.log(value);
         })
         .catch(function (error) {
           console.log(error);
@@ -181,7 +180,7 @@ const Signup = () => {
               name="email"
               required
               minLength="6"
-              maxLength="20"
+              maxLength="35"
               size="35"
             />
             <label htmlFor="password">Mot de passe</label>

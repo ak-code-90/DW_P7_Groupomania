@@ -2,6 +2,7 @@ import iconLight from '../assets/iconLight.png';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const StyledCard = styled.main`
   background: #fff;
@@ -126,7 +127,9 @@ const LoginCard = () => {
     event.preventDefault();
     const userData = { email: emailVal, password: passwordVal };
     console.log(userData);
-    //Envoyer userData au backend avec async/await Es6 (dev teory youtube) pour vérification
+    axios
+      .post('http://localhost:5000/auth/login', userData)
+      .then(() => (document.location.href = 'http://localhost:3000/main'));
   };
 
   return (

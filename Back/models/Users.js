@@ -24,5 +24,13 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
+    Users.associate = (models) => {                       //on associe la table user à la table posts
+        Users.hasMany(models.Posts, {
+            onDelete: "cascade",
+        })
+    }
+
+
+
     return Users;
 }

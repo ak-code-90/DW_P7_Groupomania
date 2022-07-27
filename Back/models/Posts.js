@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
 
     const Posts = sequelize.define('Posts', {
         postText: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT('long'),
             allowNull: false
         },
         image: {

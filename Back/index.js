@@ -13,7 +13,9 @@ const postsRoutes = require('./routes/Posts')
 app.use('/posts', postsRoutes);
 
 const usersRoutes = require('./routes/Users')
-app.use('/register', usersRoutes);
+app.use('/auth', usersRoutes);
+
+
 
 
 app.use('/images', express.static('./images'));          //p6 middleware qui sauvegarde les images uploadées dans le dossier /images

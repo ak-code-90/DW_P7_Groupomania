@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import iconLight from '../assets/iconLight.png';
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const StyledSignup = styled.main`
   background: #fff;
@@ -126,7 +127,7 @@ const Signup = () => {
       };
       let data = JSON.stringify(userData);
 
-      fetch('http://localhost:5000/register', {
+      fetch('http://localhost:5000/auth', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -137,8 +138,8 @@ const Signup = () => {
         .then(function (response) {
           return response.json();
         })
-        .then(function (value) {
-          // console.log(value);
+        .then(() => {
+          document.location.href = 'http://localhost:3000';
         })
         .catch(function (error) {
           console.log(error);

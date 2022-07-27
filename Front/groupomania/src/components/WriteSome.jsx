@@ -7,7 +7,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const StyledWrapper = styled.div`
-  background-color: grey;
+  background-color: black;
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
   margin: 60px auto;
   max-width: 800px;
@@ -20,7 +20,7 @@ const StyledWrapper = styled.div`
 
   textarea {
     margin: 30px 0 0 0;
-    background-color: grey;
+    background-color: black;
     color: #fff;
     font-size: 20px;
     padding: 10px;

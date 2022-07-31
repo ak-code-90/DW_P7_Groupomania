@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import iconLight from '../assets/iconLight.png';
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
 
 const StyledSignup = styled.main`
   background: #fff;
@@ -139,13 +138,12 @@ const Signup = () => {
           return response.json();
         })
         .then(() => {
+          alert('Votre compte a bien été enregistré');
           document.location.href = 'http://localhost:3000';
         })
-        .catch(function (error) {
-          console.log(error);
-        });
+        .catch((error) => alert(error.response.data.error));
     } else {
-      console.log('les mots de passe doivent correspondre');
+      alert('les mots de passe doivent correspondre');
     }
   };
 

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const StyledWrapper = styled.div`
-  background-color: black;
+  background-color: grey;
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
   margin: 60px auto;
   max-width: 800px;
@@ -20,7 +20,7 @@ const StyledWrapper = styled.div`
 
   textarea {
     margin: 30px 0 0 0;
-    background-color: black;
+    background-color: grey;
     color: #fff;
     font-size: 20px;
     padding: 10px;
@@ -111,10 +111,12 @@ const WriteSome = () => {
     console.log(formData);
 
     axios
-      .post('http://localhost:5000/posts', formData)
-      .then((response) => console.log('message posté !'))
-      .then(document.location.reload()) //il faut créer un state global qui va rerender la postbox.jsx lors du submit
-      .catch((error) => console.log(error));
+      .post('http://localhost:5000/posts', formData, {
+        headers: { accessToken: localStorage.getItem('Token') },
+      })
+      .then((response) => console.log(55))
+      // .then(document.location.reload()) //il faut créer un state global qui va rerender la postbox.jsx lors du submit
+      .catch((error) => alert(error.response.data.error));
   };
 
   return (

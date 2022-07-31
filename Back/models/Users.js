@@ -12,16 +12,20 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            isEmail: true,
-            min: 2,
-            max: 35,
+            validate: {
+                isEmail: true,
+                min: 5,
+                max: 35,
+            }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            min: 5,
-            max: 40,
-        }
+            validate: {
+                min: 8
+            }
+        },
+
     });
 
     Users.associate = (models) => {                       //on associe la table user à la table posts

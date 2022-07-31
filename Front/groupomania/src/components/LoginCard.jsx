@@ -126,10 +126,16 @@ const LoginCard = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const userData = { email: emailVal, password: passwordVal };
-    console.log(userData);
+    // console.log(userData);
     axios
       .post('http://localhost:5000/auth/login', userData)
+      .then((response) => {
+        // document.cookie = `token=${response.data.token};max-age=60*60*24;path=/;samesite=strict; `;
+        localStorage.setItem('Token', response.data.token);
+      })
+      .catch((error) => alert(error.response.data.error))
       .then(() => (document.location.href = 'http://localhost:3000/main'));
+    console.log(document.cookie);
   };
 
   return (

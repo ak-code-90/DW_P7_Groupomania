@@ -8,6 +8,8 @@ const validateToken = (req, res, next) => {
   try {
     const validToken = verify(accessToken, `2525`);
 
+    userInfo = { validToken };
+
     if (validToken) {
       return next();
     }

@@ -58,16 +58,13 @@ exports.checkValidToken = async (req, res) => {
     const userId = userInfo.validToken.id;
     const userRole = userInfo.validToken.userRole;
     const userPic = userInfo.validToken.userPic;
-    console.log(userInfo);
 
-    res
-      .status(200)
-      .json({
-        username: username,
-        userId: userId,
-        userRole: userRole,
-        userPic: userPic,
-      });
+    res.status(200).json({
+      username: username,
+      userId: userId,
+      userRole: userRole,
+      userPic: userPic,
+    });
   } catch (error) {
     console.log(error);
   }

@@ -46,10 +46,33 @@ exports.createPost = async (req, res) => {
 exports.deletePost = async (req, res) => {
   try {
     const postId = req.params.postId;
+    const postToDelete = await Posts.findOne({ where: { id: postId } });
+
+    const filename = postToDelete.image.split('images\\')[1];
+
+    fs.unlink(`images\\${filename}`, (err) => {
+      if (err) console.log(err);
+      else {
+        console.log("l'image a bien été supprimé depuis le dossier local");
+      }
+    });
 
     await Posts.destroy({ where: { id: postId } }); // on détruit dans la DB le post qui se réfère au post envoyé par le front end
     res.status(200).json('Le post a bien été supprimé');
   } catch (error) {
-    res.json({ error: error });
+    res.status(400).json({ error: error });
   }
 };
+
+// exports.deleteSauce = (req, res, next) => {
+//   Sauce.findOne({ _id: req.params.id })                                                    //recherche dans la DB d'une sauce qui correspond à celle de la requête
+//       .then(sauce => {
+//           const filename = sauce.imageUrl.split('/images/')[1];
+//           fs.unlink(`images/${filename}`, () => {                                          //la fonction unlink du package fs permet de supprimer le fichier du système
+//               Sauce.deleteOne({ _id: req.params.id })
+//                   .then(() => res.status(200).json({ message: 'Sauce supprimée !' }))
+//                   .catch(error => res.status(400).json({ error }));
+//           });
+//       })
+//       .catch(error => res.status(500).json({ error }));
+// };

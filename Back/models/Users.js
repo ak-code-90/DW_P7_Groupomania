@@ -31,6 +31,14 @@ module.exports = (sequelize, DataTypes) => {
         min: 8,
       },
     },
+    userPic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   });
 
   // Users.associate = (models) => {

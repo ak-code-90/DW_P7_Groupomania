@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceGrin, faImage } from '@fortawesome/free-solid-svg-icons';
 import colors from '../utils/colors';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../utils/context/authContext';
 import axios from 'axios';
 
 const StyledWrapper = styled.div`
@@ -97,6 +98,7 @@ const StyledWrapper = styled.div`
 const WriteSome = () => {
   const [postTxt, setPostTxt] = useState('');
   const [postImg, setPostImg] = useState(''); //changer ce state dans le type nécéssaire pour poster une image
+  const { authState } = useContext(AuthContext);
 
   // const [username, serUsername] = useState('');                       //faire en sorte que ces states soient globals pour les récupérer depuis la DB lors du login
   // const [userPic, serUserPic] = useState([]);
@@ -107,6 +109,7 @@ const WriteSome = () => {
     const formData = new FormData();
     formData.append('postImg', postImg);
     formData.append('postText', postTxt);
+    formData.append('userPic', authState.userPic);
 
     console.log(formData);
 

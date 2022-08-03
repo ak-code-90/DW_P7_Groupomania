@@ -3,40 +3,41 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faUser } from '@fortawesome/free-solid-svg-icons';
 import colors from '../utils/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../utils/context/authContext';
 import axios from 'axios';
 
-const PostList = [
-  {
-    username: 'xxxtentacion',
-    postText: 'LOVE IS WAR',
-    postImg:
-      'https://cdn5.beatstars.com/eyJidWNrZXQiOiJidHMtY29udGVudCIsImtleSI6InVzZXJzL3Byb2QvNTE0MTMyL2ltYWdlL01XRVU3WUxjNVVJTS8xNDMwNTI1LkpQRyIsInRpbWVzdGFtcCI6bnVsbCwiZWRpdHMiOnsicmVzaXplIjp7ImZpdCI6bnVsbCwid2lkdGgiOjcwMCwiaGVpZ2h0Ijo3MDB9fX0=?t=1652479038207',
-    userPic: 'https://i1.sndcdn.com/artworks-000488281908-i8gu5x-t500x500.jpg',
-  },
-  {
-    username: 'elonmusk',
-    postText: "Next I'm buying Coca-Cola to put the cocaine back in",
-    userPic:
-      'https://pbs.twimg.com/media/FXrRFQLUIAEp0NZ?format=jpg&name=4096x4096',
-  },
-  {
-    username: 'billieeilish',
-    userPic:
-      'https://i.pinimg.com/originals/b1/68/d8/b168d83208b00d003f3d227b5c7f7e70.jpg',
-    postText:
-      'custom trench coat and corset by @burberry, boots by @muglerofficial, gloves by @thomasinegloves, jewelry by @anitakojewelry',
-    postImg:
-      'https://ancre-magazine.com/wp-content/uploads/2021/05/billie-eilish-vogue-00.jpg',
-  },
-  {
-    username: 'tomholland2013',
-    userPic: 'https://pbs.twimg.com/media/ElNEF9iXEAAQV0V.jpg',
-    postText:
-      'My MJ, have the happiest of birthdays. Gimme a call when your up xxx',
-    postImg: 'https://pbs.twimg.com/media/FULUFjRXEAchmAv.jpg',
-  },
-];
+// const PostList = [
+//   {
+//     username: 'xxxtentacion',
+//     postText: 'LOVE IS WAR',
+//     postImg:
+//       'https://cdn5.beatstars.com/eyJidWNrZXQiOiJidHMtY29udGVudCIsImtleSI6InVzZXJzL3Byb2QvNTE0MTMyL2ltYWdlL01XRVU3WUxjNVVJTS8xNDMwNTI1LkpQRyIsInRpbWVzdGFtcCI6bnVsbCwiZWRpdHMiOnsicmVzaXplIjp7ImZpdCI6bnVsbCwid2lkdGgiOjcwMCwiaGVpZ2h0Ijo3MDB9fX0=?t=1652479038207',
+//     userPic: 'https://i1.sndcdn.com/artworks-000488281908-i8gu5x-t500x500.jpg',
+//   },
+//   {
+//     username: 'elonmusk',
+//     postText: "Next I'm buying Coca-Cola to put the cocaine back in",
+//     userPic:
+//       'https://pbs.twimg.com/media/FXrRFQLUIAEp0NZ?format=jpg&name=4096x4096',
+//   },
+//   {
+//     username: 'billieeilish',
+//     userPic:
+//       'https://i.pinimg.com/originals/b1/68/d8/b168d83208b00d003f3d227b5c7f7e70.jpg',
+//     postText:
+//       'custom trench coat and corset by @burberry, boots by @muglerofficial, gloves by @thomasinegloves, jewelry by @anitakojewelry',
+//     postImg:
+//       'https://ancre-magazine.com/wp-content/uploads/2021/05/billie-eilish-vogue-00.jpg',
+//   },
+//   {
+//     username: 'tomholland2013',
+//     userPic: 'https://pbs.twimg.com/media/ElNEF9iXEAAQV0V.jpg',
+//     postText:
+//       'My MJ, have the happiest of birthdays. Gimme a call when your up xxx',
+//     postImg: 'https://pbs.twimg.com/media/FULUFjRXEAchmAv.jpg',
+//   },
+// ];
 
 const StyledPostWapper = styled.div`
   box-sizing: border-box;
@@ -48,6 +49,34 @@ const StyledPostWapper = styled.div`
   border-radius: 8px 8px 0 0;
   display: flex;
   padding: 20px;
+
+  .textWrapper {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .deletePost,
+  .updatePost {
+    position: absolute;
+    right: 0px;
+    background: ${colors.secondary};
+    color: ${colors.primary};
+    border: none;
+    width: 100px;
+    border: 2px solid ${colors.primary};
+    height: 30px;
+    margin: 0;
+    margin-right: 15px;
+    padding: 0;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .updatePost {
+    right: 110px;
+  }
 
   .iconWrapper {
     display: flex;
@@ -95,6 +124,7 @@ const StyledPostWapper = styled.div`
       margin: 10px;
       font-size: 19px;
       color: #fff;
+      overflow-wrap: break-word;
     }
     img {
       object-fit: cover;
@@ -147,7 +177,7 @@ const StyledCommentsWrapper = styled.div`
   }
 
   .commentSubmit {
-    background: #fd2d01;
+    background: ${colors.primary};
     color: white;
     border: none;
     width: 170px;
@@ -163,6 +193,32 @@ const StyledCommentsWrapper = styled.div`
 
 const PostBox = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
+  const { authState /*setAuthState*/ } = useContext(AuthContext);
+  const [forceRender, setForceRender] = useState(false);
+
+  const deletePost = (id) => {
+    axios
+      .delete(`http://localhost:5000/posts/${id}`, {
+        headers: { accessToken: localStorage.getItem('Token') },
+      })
+      .then(() => {
+        setForceRender(!forceRender);
+        console.log(forceRender);
+
+        // setListOfPosts(
+        //   listOfPosts.filter((val) => {
+        //     return val.id !== id;
+        //   })
+        // );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const updatePost = (e) => {
+    axios.put('http://localhost:5000/posts');
+  };
 
   useEffect(() => {
     axios
@@ -186,6 +242,23 @@ const PostBox = () => {
             <FontAwesomeIcon className="userIconImg" icon={faHeart} />
           </div>
           <div className="textWrapper">
+            {(post.userId === authState.userId ||
+              authState.userRole === 'isAdmin') && (
+              <>
+                <button onClick={updatePost} className="updatePost">
+                  Modifier
+                </button>
+                <button
+                  onClick={() => {
+                    deletePost(post.id);
+                  }}
+                  className="deletePost"
+                >
+                  Supprimer
+                </button>
+              </>
+            )}
+
             <ul className="contentContainer" id="contentContainer">
               <li>
                 {post.username === 'Mr Admin' ? (
@@ -215,6 +288,7 @@ const PostBox = () => {
             placeholder="Ajouter un commentaire..."
             className="commentsTextarea"
           />
+
           <input className="commentSubmit" type="submit" value="Publier" />
         </StyledCommentsWrapper>
       </div>

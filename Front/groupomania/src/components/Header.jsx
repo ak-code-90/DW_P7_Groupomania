@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import iconLight from '../assets/iconLight.png';
+import { AuthContext } from '../utils/context/authContext';
 
 const NavContainer = styled.nav`
   background-color: #fff;
@@ -53,12 +54,28 @@ const NavContainer = styled.nav`
 `;
 
 const Header = () => {
+  const { setAuthState } = useContext(AuthContext); // récupération du context d'auth
+
+  const logout = () => {
+    // lors du click sur le bouton de déconnexion on supprime le token du LocalStorage, on supprime les infos utilisateurs et on passe le status "isLogin" sur faux
+    localStorage.removeItem('Token');
+    setAuthState({
+      username: '',
+      userId: '',
+      isLogin: false,
+      userRole: '',
+      userPic: '',
+    });
+  };
+
   return (
     <NavContainer>
       <img src={iconLight} alt="" />
       <div>
-        <Link to="/#">Mon profil</Link>
-        <Link to="/">Se déconnecter</Link>
+        <Link to="/profil">Mon profil</Link>
+        <Link onClick={logout} to="/">
+          Se déconnecter
+        </Link>
       </div>
     </NavContainer>
   );

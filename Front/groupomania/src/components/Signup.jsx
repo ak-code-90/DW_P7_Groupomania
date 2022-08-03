@@ -123,8 +123,10 @@ const Signup = () => {
         username: usernameVal,
         email: emailVal,
         password: firstpasswordVal,
+        role: 'isUser',
       };
       let data = JSON.stringify(userData);
+      console.log(userData);
 
       fetch('http://localhost:5000/auth', {
         method: 'POST',

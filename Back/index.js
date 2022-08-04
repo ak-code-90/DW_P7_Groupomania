@@ -15,6 +15,9 @@ app.use('/posts', postsRoutes);
 const usersRoutes = require('./routes/Users');
 app.use('/auth', usersRoutes);
 
+const likesRoutes = require('./routes/Likes');
+app.use('/likes', likesRoutes);
+
 app.use('/images', express.static('./images')); //p6 middleware qui sauvegarde les images uploadées dans le dossier /images
 
 db.sequelize.sync().then(() => {

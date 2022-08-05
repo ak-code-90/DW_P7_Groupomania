@@ -5,6 +5,7 @@ import { faFaceGrin, faImage } from '@fortawesome/free-solid-svg-icons';
 import colors from '../utils/colors';
 import { useState, useContext } from 'react';
 import { AuthContext } from '../utils/context/authContext';
+import { RenderContext } from '../utils/context/renderContext';
 import axios from 'axios';
 
 const StyledWrapper = styled.div`
@@ -99,6 +100,7 @@ const WriteSome = () => {
   const [postTxt, setPostTxt] = useState('');
   const [postImg, setPostImg] = useState(''); //changer ce state dans le type nécéssaire pour poster une image
   const { authState } = useContext(AuthContext);
+  const { forceRender, setForceRender } = useContext(RenderContext);
 
   // const [username, serUsername] = useState('');                       //faire en sorte que ces states soient globals pour les récupérer depuis la DB lors du login
   // const [userPic, serUserPic] = useState([]);
@@ -117,8 +119,10 @@ const WriteSome = () => {
       .post('http://localhost:5000/posts', formData, {
         headers: { accessToken: localStorage.getItem('Token') },
       })
-      .then((response) => console.log(55))
-      // .then(document.location.reload()) //il faut créer un state global qui va rerender la postbox.jsx lors du submit
+      .then(() => {
+        setForceRender(!forceRender);
+        console.log(forceRender);
+      })
       .catch((error) => alert(error.response.data.error));
   };
 

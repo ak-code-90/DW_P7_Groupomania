@@ -1,9 +1,9 @@
 const fs = require('fs');
-const { Posts } = require('../models');
+const { Posts, Likes } = require('../models');
 
 exports.getAllPosts = async (req, res, next) => {
   try {
-    const listOfPosts = await Posts.findAll();
+    const listOfPosts = await Posts.findAll({ include: [Likes] }); //on à la posssibilité d'inclure la table Likes lors de notre requête en pensant bien à importer son model
     res.json(listOfPosts);
   } catch (error) {
     res.send(error);

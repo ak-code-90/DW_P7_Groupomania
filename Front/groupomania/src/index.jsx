@@ -6,6 +6,7 @@ import Home from './pages/home';
 import Registration from './pages/Registration.jsx';
 import Error404 from './components/Error404';
 import { AuthContext } from './utils/context/authContext';
+import { RenderContext } from './utils/context/renderContext';
 import Dashboard from './pages/Dashboard';
 import axios from 'axios';
 
@@ -19,6 +20,8 @@ function App() {
     userRole: '',
     userPic: '',
   });
+
+  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     axios
@@ -49,14 +52,16 @@ function App() {
   return (
     <React.StrictMode>
       <AuthContext.Provider value={{ authState, setAuthState }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="signup" element={<Registration />} />
-            <Route path="*" element={<Error404 />} />
-            <Route path="main" element={<Dashboard />} />
-          </Routes>
-        </BrowserRouter>
+        <RenderContext.Provider value={{ forceRender, setForceRender }}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="signup" element={<Registration />} />
+              <Route path="*" element={<Error404 />} />
+              <Route path="main" element={<Dashboard />} />
+            </Routes>
+          </BrowserRouter>
+        </RenderContext.Provider>
       </AuthContext.Provider>
     </React.StrictMode>
   );

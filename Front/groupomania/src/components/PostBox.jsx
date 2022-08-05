@@ -5,6 +5,7 @@ import { faHeart, faUser } from '@fortawesome/free-solid-svg-icons';
 import colors from '../utils/colors';
 import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../utils/context/authContext';
+import { RenderContext } from '../utils/context/renderContext';
 import axios from 'axios';
 
 // const PostList = [
@@ -84,6 +85,14 @@ const StyledPostWapper = styled.div`
     justify-content: space-between;
     min-height: 130px;
 
+    .heartIconBtn {
+      background-color: transparent;
+      padding: 0;
+      margin-top: 25px;
+      /* border: none; */
+      width: 60%;
+    }
+
     .userIconImg {
       font-size: 40px;
       color: grey;
@@ -104,6 +113,9 @@ const StyledPostWapper = styled.div`
         color: ${colors.secondary};
       }
     }
+  }
+
+  .totalOfLikes {
   }
 
   .userPic {
@@ -194,7 +206,7 @@ const StyledCommentsWrapper = styled.div`
 const PostBox = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
   const { authState /*setAuthState*/ } = useContext(AuthContext);
-  const [forceRender, setForceRender] = useState(false);
+  const { forceRender, setForceRender } = useContext(RenderContext); // transformer ce state en context pour pouvoir l'utiliser partout
 
   const deletePost = (id) => {
     axios
@@ -204,15 +216,26 @@ const PostBox = () => {
       .then(() => {
         setForceRender(!forceRender);
         console.log(forceRender);
-
-        // setListOfPosts(
-        //   listOfPosts.filter((val) => {
-        //     return val.id !== id;
-        //   })
-        // );
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const HandleALike = (postId) => {
+    axios
+      .post(
+        'http://localhost:5000/likes',
+        { PostId: postId },
+        {
+          headers: {
+            accessToken: localStorage.getItem('Token'),
+          },
+        }
+      )
+      .then(() => {
+        setForceRender(!forceRender);
+        console.log(forceRender);
       });
   };
 
@@ -225,7 +248,7 @@ const PostBox = () => {
       .get('http://localhost:5000/posts')
       .then((response) => setListOfPosts(response.data))
       .catch((error) => console.log(error));
-  }, []);
+  }, [forceRender]);
 
   return listOfPosts
     .slice(0)
@@ -239,7 +262,17 @@ const PostBox = () => {
             ) : (
               <FontAwesomeIcon className="userIconImg" icon={faUser} />
             )}
-            <FontAwesomeIcon className="userIconImg" icon={faHeart} />
+            <button
+              onClick={() => {
+                HandleALike(post.id);
+              }}
+              className="heartIconBtn"
+            >
+              <FontAwesomeIcon className="userIconImg" icon={faHeart} />
+            </button>
+            {post.Likes.length > 0 && (
+              <label className="totalOfLikes"> {post.Likes.length}</label>
+            )}
           </div>
           <div className="textWrapper">
             {(post.userId === authState.userId ||

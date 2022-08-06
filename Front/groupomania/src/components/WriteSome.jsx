@@ -79,8 +79,10 @@ const StyledWrapper = styled.div`
   }
   .iconWrapper label {
     display: flex;
+    align-items: center;
     gap: 15px;
     margin-left: 15px;
+    color: ${colors.secondary};
   }
   .imgIcon {
     font-size: 30px;
@@ -125,6 +127,10 @@ const WriteSome = () => {
       .catch((error) => alert(error.response.data.error));
   };
 
+  const handlefileselection = (e) => {
+    setPostImg(e.target.files[0]);
+  };
+
   return (
     <StyledWrapper>
       <textarea
@@ -145,6 +151,7 @@ const WriteSome = () => {
           <div className="iconWrapper">
             <label htmlFor="file-input">
               <FontAwesomeIcon className="imgIcon" icon={faImage} />
+              {postImg.name}
               <FontAwesomeIcon className="imgIcon" icon={faFaceGrin} />
             </label>
             <input

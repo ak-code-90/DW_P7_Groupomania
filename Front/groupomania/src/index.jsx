@@ -47,8 +47,6 @@ function App() {
     // eslint-disable-next-line
   }, []);
 
-  console.log(authState);
-
   return (
     <React.StrictMode>
       <AuthContext.Provider value={{ authState, setAuthState }}>

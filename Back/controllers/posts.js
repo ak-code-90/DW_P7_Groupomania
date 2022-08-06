@@ -3,7 +3,10 @@ const { Posts, Likes } = require('../models');
 
 exports.getAllPosts = async (req, res, next) => {
   try {
-    const listOfPosts = await Posts.findAll({ include: [Likes] }); //on à la posssibilité d'inclure la table Likes lors de notre requête en pensant bien à importer son model
+    const listOfPosts = await Posts.findAll({
+      order: [['updatedAt', 'DESC']], // je crée la liste de posts dans l'ordre antéchronologique
+      include: [Likes], //j'inclus la table Likes sous forme de tableau
+    });
     res.json(listOfPosts);
   } catch (error) {
     res.send(error);
@@ -63,16 +66,3 @@ exports.deletePost = async (req, res) => {
     res.status(400).json({ error: error });
   }
 };
-
-// exports.deleteSauce = (req, res, next) => {
-//   Sauce.findOne({ _id: req.params.id })                                                    //recherche dans la DB d'une sauce qui correspond à celle de la requête
-//       .then(sauce => {
-//           const filename = sauce.imageUrl.split('/images/')[1];
-//           fs.unlink(`images/${filename}`, () => {                                          //la fonction unlink du package fs permet de supprimer le fichier du système
-//               Sauce.deleteOne({ _id: req.params.id })
-//                   .then(() => res.status(200).json({ message: 'Sauce supprimée !' }))
-//                   .catch(error => res.status(400).json({ error }));
-//           });
-//       })
-//       .catch(error => res.status(500).json({ error }));
-// };

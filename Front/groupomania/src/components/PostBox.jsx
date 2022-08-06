@@ -89,7 +89,7 @@ const StyledPostWapper = styled.div`
       background-color: transparent;
       padding: 0;
       margin-top: 25px;
-      /* border: none; */
+      border: none;
       width: 60%;
     }
 
@@ -116,6 +116,7 @@ const StyledPostWapper = styled.div`
   }
 
   .totalOfLikes {
+    color: #fff;
   }
 
   .userPic {
@@ -215,7 +216,6 @@ const PostBox = () => {
       })
       .then(() => {
         setForceRender(!forceRender);
-        console.log(forceRender);
       })
       .catch((error) => {
         console.log(error);
@@ -235,7 +235,6 @@ const PostBox = () => {
       )
       .then(() => {
         setForceRender(!forceRender);
-        console.log(forceRender);
       });
   };
 
@@ -250,82 +249,79 @@ const PostBox = () => {
       .catch((error) => console.log(error));
   }, [forceRender]);
 
-  return listOfPosts
-    .slice(0)
-    .reverse()
-    .map((post) => (
-      <div key={post.id}>
-        <StyledPostWapper>
-          <div className="iconWrapper">
-            {post.userPic ? (
-              <img className="userPic" src={post.userPic} alt=" " />
-            ) : (
-              <FontAwesomeIcon className="userIconImg" icon={faUser} />
-            )}
-            <button
-              onClick={() => {
-                HandleALike(post.id);
-              }}
-              className="heartIconBtn"
-            >
-              <FontAwesomeIcon className="userIconImg" icon={faHeart} />
-            </button>
-            {post.Likes.length > 0 && (
-              <label className="totalOfLikes"> {post.Likes.length}</label>
-            )}
-          </div>
-          <div className="textWrapper">
-            {(post.userId === authState.userId ||
-              authState.userRole === 'isAdmin') && (
-              <>
-                <button onClick={updatePost} className="updatePost">
-                  Modifier
-                </button>
-                <button
-                  onClick={() => {
-                    deletePost(post.id);
-                  }}
-                  className="deletePost"
-                >
-                  Supprimer
-                </button>
-              </>
-            )}
+  // console.log(listOfPosts);
 
-            <ul className="contentContainer" id="contentContainer">
-              <li>
-                {post.username === 'Mr Admin' ? (
-                  <span style={{ color: colors.tertiary }}>
-                    {post.username}
-                  </span>
-                ) : (
-                  <span>{post.username}</span>
-                )}
-              </li>
-              <li>
-                <p>{post.postText}</p>
-              </li>
-              <li>
-                {post.image && (
-                  <img src={`http://localhost:5000/${post.image}`} alt="" />
-                )}
-              </li>
-            </ul>
-          </div>
-        </StyledPostWapper>
+  return listOfPosts.map((post) => (
+    <div key={post.id}>
+      <StyledPostWapper>
+        <div className="iconWrapper">
+          {post.userPic ? (
+            <img className="userPic" src={post.userPic} alt=" " />
+          ) : (
+            <FontAwesomeIcon className="userIconImg" icon={faUser} />
+          )}
+          <button
+            onClick={() => {
+              HandleALike(post.id);
+            }}
+            className="heartIconBtn"
+          >
+            <FontAwesomeIcon className="userIconImg" icon={faHeart} />
+          </button>
+          {/* {post.Likes.length > 0 && ( */}
+          <label className="totalOfLikes"> {post.Likes.length}</label>
+          {/* )} */}
+        </div>
+        <div className="textWrapper">
+          {(post.userId === authState.userId ||
+            authState.userRole === 'isAdmin') && (
+            <>
+              <button onClick={updatePost} className="updatePost">
+                Modifier
+              </button>
+              <button
+                onClick={() => {
+                  deletePost(post.id);
+                }}
+                className="deletePost"
+              >
+                Supprimer
+              </button>
+            </>
+          )}
 
-        <StyledCommentsWrapper className="writeCommentsWrapper">
-          <FontAwesomeIcon className="userIconImg" icon={faUser} />
-          <input
-            type="textarea"
-            placeholder="Ajouter un commentaire..."
-            className="commentsTextarea"
-          />
+          <ul className="contentContainer" id="contentContainer">
+            <li>
+              {post.username === 'Mr Admin' ? (
+                <span style={{ color: colors.tertiary }}>{post.username}</span>
+              ) : (
+                <span>{post.username}</span>
+              )}
+            </li>
+            <li>
+              <p>{post.postText}</p>
+            </li>
+            <li>
+              {post.image && (
+                <img src={`http://localhost:5000/${post.image}`} alt="" />
+              )}
+            </li>
+          </ul>
+        </div>
+      </StyledPostWapper>
 
-          <input className="commentSubmit" type="submit" value="Publier" />
-        </StyledCommentsWrapper>
-      </div>
-    ));
+      <StyledCommentsWrapper className="writeCommentsWrapper">
+        <FontAwesomeIcon className="userIconImg" icon={faUser} />
+        <input
+          type="textarea"
+          placeholder="Ajouter un commentaire..."
+          className="commentsTextarea"
+        />
+
+        <input className="commentSubmit" type="submit" value="Publier" />
+      </StyledCommentsWrapper>
+    </div>
+  ));
 };
 
 export default PostBox;

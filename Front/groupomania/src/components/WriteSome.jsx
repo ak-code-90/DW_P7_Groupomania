@@ -121,7 +121,6 @@ const WriteSome = () => {
       })
       .then(() => {
         setForceRender(!forceRender);
-        console.log(forceRender);
       })
       .catch((error) => alert(error.response.data.error));
   };

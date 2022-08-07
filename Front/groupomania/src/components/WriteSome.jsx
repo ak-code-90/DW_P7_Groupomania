@@ -21,6 +21,8 @@ const StyledWrapper = styled.div`
   /* border: 1px solid white; */
 
   textarea {
+    box-sizing: border-box;
+    width: 100%;
     margin: 30px 0 0 0;
     background-color: grey;
     color: #fff;
@@ -42,7 +44,8 @@ const StyledWrapper = styled.div`
   .iconsSubmitWrapper {
     display: flex;
     flex-direction: row;
-    height: 80px;
+    width: 100%;
+    box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
     margin: 0;
@@ -65,7 +68,9 @@ const StyledWrapper = styled.div`
 
   form {
     display: flex;
+    flex-direction: column;
     width: 100%;
+    height: 100%;
     justify-content: space-between;
     align-items: center;
   }
@@ -87,7 +92,6 @@ const StyledWrapper = styled.div`
   .imgIcon {
     font-size: 30px;
     color: #fff;
-    /* box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.274); */
     cursor: pointer;
     :first-child {
     }
@@ -100,22 +104,19 @@ const StyledWrapper = styled.div`
 
 const WriteSome = () => {
   const [postTxt, setPostTxt] = useState('');
-  const [postImg, setPostImg] = useState(''); //changer ce state dans le type nécéssaire pour poster une image
+  const [postImg, setPostImg] = useState('');
   const { authState } = useContext(AuthContext);
   const { forceRender, setForceRender } = useContext(RenderContext);
 
-  // const [username, serUsername] = useState('');                       //faire en sorte que ces states soient globals pour les récupérer depuis la DB lors du login
-  // const [userPic, serUserPic] = useState([]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const form = document.getElementById('postForm');
 
     const formData = new FormData();
     formData.append('postImg', postImg);
     formData.append('postText', postTxt);
     formData.append('userPic', authState.userPic);
-
-    console.log(formData);
 
     axios
       .post('http://localhost:5000/posts', formData, {
@@ -125,29 +126,30 @@ const WriteSome = () => {
         setForceRender(!forceRender);
       })
       .catch((error) => alert(error.response.data.error));
-  };
 
-  const handlefileselection = (e) => {
-    setPostImg(e.target.files[0]);
+    form.reset();
+    setPostImg('');
   };
 
   return (
     <StyledWrapper>
-      <textarea
-        onChange={(e) => setPostTxt(e.target.value)}
-        placeholder="Écrivez quelque chose..."
-        name="postText"
-        id=""
-        cols="30"
-        rows="6"
-      ></textarea>
-      <div className="iconsSubmitWrapper">
-        <form
-          onSubmit={handleSubmit}
-          action="/"
-          method="POST"
-          encType="multipart/form-data"
-        >
+      <form
+        onSubmit={handleSubmit}
+        id="postForm"
+        action="/"
+        method="POST"
+        encType="multipart/form-data"
+      >
+        <textarea
+          onChange={(e) => setPostTxt(e.target.value)}
+          placeholder="Écrivez quelque chose..."
+          name="postText"
+          id=""
+          className="postForm__textarea"
+          cols="30"
+          rows="6"
+        ></textarea>
+        <div className="iconsSubmitWrapper">
           <div className="iconWrapper">
             <label htmlFor="file-input">
               <FontAwesomeIcon className="imgIcon" icon={faImage} />
@@ -164,8 +166,8 @@ const WriteSome = () => {
           </div>
 
           <input className="SendDataSubmit" type="submit" value="Publier" />
-        </form>
-      </div>
+        </div>
+      </form>
     </StyledWrapper>
   );
 };

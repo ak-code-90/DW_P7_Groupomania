@@ -2,12 +2,18 @@ const fs = require('fs');
 const { Posts, Likes } = require('../models');
 
 exports.getAllPosts = async (req, res, next) => {
+  console.log(userInfo.validToken.id);
   try {
     const listOfPosts = await Posts.findAll({
       order: [['updatedAt', 'DESC']], // je crée la liste de posts dans l'ordre antéchronologique
       include: [Likes], //j'inclus la table Likes sous forme de tableau
     });
-    res.json(listOfPosts);
+
+    const likedPosts = await Likes.findAll({
+      where: { UserId: userInfo.validToken.id },
+    });
+
+    res.json({ listOfPosts: listOfPosts, likedPosts: likedPosts });
   } catch (error) {
     res.send(error);
   }

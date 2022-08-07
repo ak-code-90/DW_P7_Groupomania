@@ -83,14 +83,33 @@ const StyledPostWapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     min-height: 130px;
 
-    .heartIconBtn {
+    .heartIconBtn_liked {
       background-color: transparent;
       padding: 0;
-      margin-top: 25px;
       border: none;
       width: 60%;
+      path {
+        color: red;
+        :hover {
+          transition: 0.3s;
+          color: ${colors.secondary};
+        }
+      }
+    }
+    .heartIconBtn_unliked {
+      background-color: transparent;
+      padding: 0;
+      border: none;
+      width: 60%;
+      path {
+        color: white;
+        :hover {
+          color: ${colors.secondary};
+        }
+      }
     }
 
     .userIconImg {
@@ -99,7 +118,16 @@ const StyledPostWapper = styled.div`
       background-color: white;
       border-radius: 100%;
       padding: 18px;
-      margin: 10px;
+      /* margin: 10px; */
+    }
+
+    .likeInfo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 0;
+      margin-top: 25px;
     }
 
     .userIconImg:last-child {
@@ -206,6 +234,7 @@ const StyledCommentsWrapper = styled.div`
 
 const PostBox = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
+  const [likedPosts, setLikedPosts] = useState([]);
   const { authState /*setAuthState*/ } = useContext(AuthContext);
   const { forceRender, setForceRender } = useContext(RenderContext); // transformer ce state en context pour pouvoir l'utiliser partout
 
@@ -239,17 +268,32 @@ const PostBox = () => {
   };
 
   const updatePost = (e) => {
-    axios.put('http://localhost:5000/posts');
+    axios.put('http://localhost:5000/posts', {
+      headers: {
+        accessToken: localStorage.getItem('Token'),
+      },
+    });
   };
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/posts')
-      .then((response) => setListOfPosts(response.data))
+      .get('http://localhost:5000/posts', {
+        headers: {
+          accessToken: localStorage.getItem('Token'),
+        },
+      })
+      .then((response) => {
+        setListOfPosts(response.data.listOfPosts);
+        setLikedPosts(
+          response.data.likedPosts.map((like) => {
+            // je stock dans un state un tableau avec l'id de chaque post liké par l'utilisateur
+            return like.PostId;
+          })
+        );
+      })
+
       .catch((error) => console.log(error));
   }, [forceRender]);
-
-  // console.log(listOfPosts);
 
   return listOfPosts.map((post) => (
     <div key={post.id}>
@@ -260,17 +304,32 @@ const PostBox = () => {
           ) : (
             <FontAwesomeIcon className="userIconImg" icon={faUser} />
           )}
-          <button
-            onClick={() => {
-              HandleALike(post.id);
-            }}
-            className="heartIconBtn"
-          >
-            <FontAwesomeIcon className="userIconImg" icon={faHeart} />
-          </button>
-          {/* {post.Likes.length > 0 && ( */}
-          <label className="totalOfLikes"> {post.Likes.length}</label>
-          {/* )} */}
+
+          <div className="likeInfo">
+            {/* <button
+              onClick={() => {
+                HandleALike(post.id);
+              }}
+              className="heartIconBtn_liked"
+            >
+              <FontAwesomeIcon className="userIconImg" icon={faHeart} />
+            </button> */}
+            <button
+              onClick={() => {
+                HandleALike(post.id);
+              }}
+              className={
+                likedPosts.includes(post.id)
+                  ? 'heartIconBtn_liked'
+                  : 'heartIconBtn_unliked'
+              }
+            >
+              <FontAwesomeIcon className="userIconImg" icon={faHeart} />
+            </button>
+            {post.Likes.length > 0 && (
+              <label className="totalOfLikes"> {post.Likes.length}</label>
+            )}
+          </div>
         </div>
         <div className="textWrapper">
           {(post.userId === authState.userId ||

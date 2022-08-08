@@ -42,7 +42,7 @@ import axios from 'axios';
 
 const StyledPostWapper = styled.div`
   box-sizing: border-box;
-  background-color: grey;
+  background-color: #4e5166;
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
   margin: 60px auto 0px;
   max-width: 800px;
@@ -88,11 +88,12 @@ const StyledPostWapper = styled.div`
 
     .heartIconBtn_liked {
       background-color: transparent;
+      font-size: 30px;
       padding: 0;
       border: none;
       width: 60%;
       path {
-        color: red;
+        color: ${colors.primary};
         :hover {
           transition: 0.3s;
           color: ${colors.secondary};
@@ -101,6 +102,7 @@ const StyledPostWapper = styled.div`
     }
     .heartIconBtn_unliked {
       background-color: transparent;
+      font-size: 30px;
       padding: 0;
       border: none;
       width: 60%;
@@ -113,12 +115,12 @@ const StyledPostWapper = styled.div`
     }
 
     .userIconImg {
-      font-size: 40px;
-      color: grey;
+      width: 50px;
+      height: 50px;
+      color: #4e5166;
       background-color: white;
       border-radius: 100%;
       padding: 18px;
-      /* margin: 10px; */
     }
 
     .likeInfo {
@@ -128,6 +130,9 @@ const StyledPostWapper = styled.div`
       gap: 8px;
       padding: 14px 0;
       margin-top: 25px;
+      label {
+        font-size: 16px;
+      }
     }
 
     .userIconImg:last-child {
@@ -187,14 +192,14 @@ const StyledCommentsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: grey;
+  background-color: #4e5166;
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
   border-radius: 0 0 8px 8px;
   border-top: 2px #ffd7d7 solid;
 
   .userIconImg {
     font-size: 20px;
-    color: grey;
+    color: #4e5166;
     background-color: white;
     border-radius: 100%;
     padding: 12px;
@@ -202,7 +207,7 @@ const StyledCommentsWrapper = styled.div`
   }
 
   .commentsTextarea {
-    background-color: grey;
+    background-color: #4e5166;
     color: #fff;
     outline: none;
     width: 100%;
@@ -295,6 +300,7 @@ const PostBox = () => {
       .catch((error) => console.log(error));
   }, [forceRender]);
 
+  console.log(listOfPosts);
   return listOfPosts.map((post) => (
     <div key={post.id}>
       <StyledPostWapper>
@@ -306,25 +312,17 @@ const PostBox = () => {
           )}
 
           <div className="likeInfo">
-            {/* <button
-              onClick={() => {
-                HandleALike(post.id);
-              }}
-              className="heartIconBtn_liked"
-            >
-              <FontAwesomeIcon className="userIconImg" icon={faHeart} />
-            </button> */}
             <button
               onClick={() => {
                 HandleALike(post.id);
               }}
               className={
-                likedPosts.includes(post.id)
+                likedPosts.includes(post.id) // Si l'utilisateur a déjà liké, on affiche un coeur rouge, sinon un coeur blanc
                   ? 'heartIconBtn_liked'
                   : 'heartIconBtn_unliked'
               }
             >
-              <FontAwesomeIcon className="userIconImg" icon={faHeart} />
+              <FontAwesomeIcon className="heartIconImg" icon={faHeart} />
             </button>
             {post.Likes.length > 0 && (
               <label className="totalOfLikes"> {post.Likes.length}</label>
@@ -352,7 +350,7 @@ const PostBox = () => {
           <ul className="contentContainer" id="contentContainer">
             <li>
               {post.username === 'Mr Admin' ? (
-                <span style={{ color: colors.tertiary }}>{post.username}</span>
+                <span style={{ color: '#ff9b89' }}>{post.username}</span>
               ) : (
                 <span>{post.username}</span>
               )}

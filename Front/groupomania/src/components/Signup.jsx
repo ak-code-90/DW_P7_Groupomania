@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import iconLight from '../assets/iconLight.png';
+import iconLight from '../assets/logo-icon.svg';
 import { useState } from 'react';
 
 const StyledSignup = styled.main`
-  background: #fff;
+  background: #4e5166;
   border-radius: 8px;
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.65);
   height: auto;
@@ -20,23 +20,25 @@ const StyledSignup = styled.main`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 110px;
+    margin-top: 30px;
     width: 100%;
   }
 
   h1 {
-    color: #4e5166;
+    color: #fff;
     font-size: 22px;
     align-self: center;
     margin: 20px 0;
   }
 
   .card_logo {
-    width: 50%;
-    height: 40px;
-    margin-right: 20px;
-
-    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    background-color: #fff;
+    color: white;
+    border-radius: 100%;
+    border: outset;
   }
 
   .form_wrapper {
@@ -61,21 +63,23 @@ const StyledSignup = styled.main`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    color: #fff;
+    gap: 6px;
   }
 
   .form_input_wrapper input {
     margin-top: 5px;
-    border-radius: 3px;
+    border-radius: 4px;
     height: 22px;
     width: 100%;
   }
 
   .form_input_wrapper label {
-    margin-top: 12px;
+    margin-top: 5px;
   }
 
   .form_input_wrapper a {
-    color: #4e5166;
+    color: white;
     text-decoration: none;
     margin-top: 12px;
     align-self: center;
@@ -155,7 +159,7 @@ const Signup = () => {
         <img className="card_logo" src={iconLight} alt="logo groupomania" />
       </Link>
       <div className="form_wrapper form_wrapper_signup">
-        <h1>Inscrivez-vous</h1>
+        <h1>Inscription</h1>
         <form
           method="POST"
           action="http://localhost:5000/register"

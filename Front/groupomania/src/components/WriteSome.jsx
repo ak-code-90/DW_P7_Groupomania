@@ -9,7 +9,7 @@ import { RenderContext } from '../utils/context/renderContext';
 import axios from 'axios';
 
 const StyledWrapper = styled.div`
-  background-color: grey;
+  background-color: #4e5166;
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
   margin: 60px auto;
   max-width: 800px;
@@ -24,7 +24,7 @@ const StyledWrapper = styled.div`
     box-sizing: border-box;
     width: 100%;
     margin: 30px 0 0 0;
-    background-color: grey;
+    background-color: #4e5166;
     color: #fff;
     font-size: 20px;
     padding: 10px;
@@ -127,7 +127,7 @@ const WriteSome = () => {
       })
       .catch((error) => alert(error.response.data.error));
 
-    form.reset();
+    form.reset(); // réinitialisation du formulaire après l'envoi
     setPostImg('');
   };
 

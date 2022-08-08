@@ -1,23 +1,24 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import iconLight from '../assets/iconLight.png';
+import iconLight from '../assets/logo-icon.svg';
 import { AuthContext } from '../utils/context/authContext';
 
 const NavContainer = styled.nav`
-  background-color: #fff;
+  background-color: #4e5166;
   height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  img {
-    width: 15%;
-    min-width: 210px;
-    height: 100%;
-    margin-right: 0px;
-    object-fit: cover;
+  .logo {
+    width: 40px;
+    height: 40px;
+    margin-left: 50px;
     cursor: pointer;
+    background-color: white;
+    border-radius: 100%;
+    border: outset;
   }
 
   div {
@@ -25,7 +26,7 @@ const NavContainer = styled.nav`
   }
 
   div a {
-    color: #4e5166;
+    color: white;
     text-decoration: none;
     margin-right: 50px;
     font-size: 19px;
@@ -70,11 +71,11 @@ const Header = () => {
 
   return (
     <NavContainer>
-      <img src={iconLight} alt="" />
+      <img className="logo" src={iconLight} alt="" />
       <div>
-        <Link to="/profil">Mon profil</Link>
+        <Link to="/profil">Profil</Link>
         <Link onClick={logout} to="/">
-          Se déconnecter
+          Déconnexion
         </Link>
       </div>
     </NavContainer>

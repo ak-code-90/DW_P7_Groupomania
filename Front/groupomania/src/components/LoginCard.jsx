@@ -1,11 +1,11 @@
-import iconLight from '../assets/iconLight.png';
+import iconLight from '../assets/logo-icon.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
 const StyledCard = styled.main`
-  background: #fff;
+  background: #4e5166;
   border-radius: 8px;
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.65);
   height: 500px;
@@ -16,6 +16,22 @@ const StyledCard = styled.main`
   align-items: center;
   text-align: center;
 
+  .card_logo {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 100%;
+    border: outset;
+  }
+
+  /* .card_logo {
+    width: 50%;
+    height: 20%;
+    margin-right: 20px;
+    object-fit: cover;
+  } */
+
   .firstLink {
     display: flex;
     justify-content: center;
@@ -25,7 +41,7 @@ const StyledCard = styled.main`
   }
 
   h1 {
-    color: #4e5166;
+    color: #fff;
     font-size: 22px;
     align-self: center;
   }
@@ -41,13 +57,6 @@ const StyledCard = styled.main`
     flex-direction: column;
     align-items: center;
     text-align: center;
-  }
-
-  .card_logo {
-    width: 50%;
-    height: 20%;
-    margin-right: 20px;
-    object-fit: cover;
   }
 
   .form_wrapper {
@@ -83,10 +92,11 @@ const StyledCard = styled.main`
 
   .form_input_wrapper label {
     margin-top: 12px;
+    color: white;
   }
 
   .form_input_wrapper a {
-    color: #4e5166;
+    color: #fff;
     text-decoration: none;
     margin-top: 12px;
     align-self: center;
@@ -116,6 +126,7 @@ const StyledCard = styled.main`
   span {
     margin: 12px auto;
     font-size: 14px;
+    color: white;
   }
 `;
 
@@ -139,9 +150,19 @@ const LoginCard = () => {
 
   return (
     <StyledCard className="card_wrapper">
-      <img className="card_logo" src={iconLight} alt="logo groupomania" />
+      <div
+        style={{
+          marginTop: '30px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+        }}
+      >
+        <img className="card_logo" src={iconLight} alt="logo groupomania" />
+      </div>
+
       <div className="form_wrapper">
-        <h1>Connectez-vous</h1>
+        <h1>Connexion</h1>
         <form onSubmit={handleSubmit} className="form" action="">
           <div className="form_input_wrapper">
             <label htmlFor="email">Email</label>

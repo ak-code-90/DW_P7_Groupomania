@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart,
+  faUser,
+  faImage,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import colors from '../utils/colors';
 import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../utils/context/authContext';
@@ -182,6 +187,151 @@ const StyledPostWapper = styled.div`
     }
   }
 `;
+const StyledPopup = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+  background-color: #00000075;
+
+  .popupFormWrapper {
+    background-color: #4e5166;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
+    margin: 30px auto;
+    max-width: 800px;
+    height: 90%;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .popupForm {
+    position: relative;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .closeBtn {
+    position: absolute;
+    background: ${colors.tertiary};
+    color: white;
+    border: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 17px;
+    border-radius: 8px;
+    right: 12px;
+    top: 12px;
+  }
+
+  .popupFormWrapper2 {
+    background-color: #4e5166;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
+    margin: 30px auto;
+    max-width: 800px;
+    height: 40%;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .imgContentWrapper {
+    display: flex;
+
+    gap: 10px;
+
+    label {
+      margin-top: 5px;
+    }
+
+    .imgName {
+      align-self: flex-start;
+      margin-top: 10px;
+      cursor: pointer;
+      color: ${colors.secondary};
+    }
+  }
+
+  .popupImg {
+    object-fit: cover;
+    border-radius: 8px;
+    height: auto;
+    max-width: 50%;
+    overflow: hidden;
+    margin-top: 30px;
+  }
+
+  textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100px;
+    margin-top: 30px;
+    background-color: #4e5166;
+    color: #fff;
+    font-size: 20px;
+    padding: 10px;
+    resize: none;
+    cursor: text;
+    outline: none;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+
+    ::placeholder {
+      color: #fff;
+      font-size: 20px;
+      padding-left: 10px;
+    }
+  }
+
+  .iconsSubmitWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 230px;
+    width: 100%;
+    height: 125px;
+    padding-bottom: 25px;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    margin-top: 15px;
+  }
+
+  .SendDataSubmit {
+    background: ${colors.primary};
+    color: white;
+    border: none;
+    width: 170px;
+    height: 50px;
+
+    cursor: pointer;
+    font-size: 17px;
+    border-radius: 8px;
+  }
+
+  input[type='submit']:hover {
+    box-shadow: 0px 1px 7px #fd2d01;
+  }
+
+  #file-input {
+    display: none;
+  }
+
+  .imgIcon {
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
+`;
 
 const StyledCommentsWrapper = styled.div`
   box-sizing: border-box;
@@ -242,6 +392,9 @@ const PostBox = () => {
   const [likedPosts, setLikedPosts] = useState([]);
   const { authState /*setAuthState*/ } = useContext(AuthContext);
   const { forceRender, setForceRender } = useContext(RenderContext); // transformer ce state en context pour pouvoir l'utiliser partout
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [postInfo, setPostInfo] = useState({});
+  const [newImgInfo, setNewImgInfo] = useState({});
 
   const deletePost = (id) => {
     axios
@@ -272,6 +425,16 @@ const PostBox = () => {
       });
   };
 
+  const handleClickPopup = (postInfo) => {
+    console.log(postInfo);
+    setPostInfo(postInfo);
+    setModalIsOpen(!modalIsOpen);
+  };
+
+  const handleNewPostSelected = () => {};
+
+  const handleNewPostSubmitted = () => {};
+
   const updatePost = (e) => {
     axios.put('http://localhost:5000/posts', {
       headers: {
@@ -300,7 +463,6 @@ const PostBox = () => {
       .catch((error) => console.log(error));
   }, [forceRender]);
 
-  console.log(listOfPosts);
   return listOfPosts.map((post) => (
     <div key={post.id}>
       <StyledPostWapper>
@@ -333,9 +495,84 @@ const PostBox = () => {
           {(post.userId === authState.userId ||
             authState.userRole === 'isAdmin') && (
             <>
-              <button onClick={updatePost} className="updatePost">
+              <button
+                onClick={() => handleClickPopup(post)}
+                className="updatePost"
+              >
                 Modifier
               </button>
+
+              {modalIsOpen && (
+                <StyledPopup>
+                  <div
+                    className={
+                      !postInfo.image ? 'popupFormWrapper2' : 'popupFormWrapper'
+                    }
+                  >
+                    <form
+                      className="popupForm"
+                      onSubmit={console.log(55)}
+                      id="postForm"
+                      action="/"
+                      method="POST"
+                      encType="multipart/form-data"
+                    >
+                      <button className="closeBtn">
+                        <FontAwesomeIcon
+                          onClick={() => setModalIsOpen(false)}
+                          icon={faXmark}
+                        />
+                      </button>
+                      <textarea
+                        // onChange={(e) => setPostTxt(e.target.value)}
+                        name="postText"
+                        id=""
+                        className="postForm__textarea"
+                        cols="30"
+                        rows="6"
+                      >
+                        {postInfo.postText}
+                      </textarea>
+                      {postInfo.image && (
+                        <>
+                          <img
+                            className="popupImg"
+                            src={`http://localhost:5000/${postInfo.image}`}
+                            alt=""
+                          />
+                          <div className="imgContentWrapper">
+                            {console.log(postInfo.image)}
+                            {/* <label htmlFor="file-input" className="imgName">
+                              {postInfo.image.split('\\')[1]}
+                            </label> */}
+                          </div>
+                        </>
+                      )}
+
+                      <div className="iconsSubmitWrapper">
+                        <label htmlFor="file-input">
+                          <FontAwesomeIcon className="imgIcon" icon={faImage} />
+                        </label>
+
+                        <input
+                          onChange={handleNewPostSelected}
+                          name="image"
+                          id="file-input"
+                          type="file"
+                          accept="image/*"
+                        />
+                        <input
+                          onSubmit={handleNewPostSubmitted}
+                          className="SendDataSubmit"
+                          type="submit"
+                          value="Publier"
+                        />
+                      </div>
+                    </form>{' '}
+                  </div>
+                </StyledPopup>
+              )}
+
               <button
                 onClick={() => {
                   deletePost(post.id);

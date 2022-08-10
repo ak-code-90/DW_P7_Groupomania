@@ -93,8 +93,6 @@ const StyledWrapper = styled.div`
     font-size: 30px;
     color: #fff;
     cursor: pointer;
-    :first-child {
-    }
   }
 
   @media screen and (max-width: 550px) {

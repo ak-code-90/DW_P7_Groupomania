@@ -55,6 +55,30 @@ const StyledPostWapper = styled.div`
   border-radius: 8px 8px 0 0;
   display: flex;
   padding: 20px;
+  position: relative;
+
+  .details {
+    position: absolute;
+    display: flex;
+    right: 0;
+    top: 0;
+    font-size: 25px;
+    color: #fff;
+  }
+
+  .detailsBtns {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: #fff;
+
+    width: 255px;
+    height: 0px;
+
+    summary {
+      cursor: pointer;
+    }
+  }
 
   .textWrapper {
     width: 100%;
@@ -417,13 +441,12 @@ const PostBox = () => {
   };
 
   const handleClickPopup = (newInfo) => {
+    setModalIsOpen(!modalIsOpen);
     setNewPostInfo({
       //mettre à jour ce state permet d'afficher le text du post dans le placeholder du text-area
       newTxt: newInfo,
       newImg: newPostInfo.newImg,
     });
-
-    setModalIsOpen(!modalIsOpen);
   };
 
   const handleImgSelection = (e) => {
@@ -437,6 +460,9 @@ const PostBox = () => {
   const handleCloseModal = () => {
     setModalIsOpen(false);
     setNewPostInfo({ newTxt: '', newImg: {} });
+
+    const details = document.getElementById('details');
+    details.removeAttribute('open');
   };
 
   const updatePost = (e, id) => {
@@ -446,6 +472,8 @@ const PostBox = () => {
     formData.append('postImg', newPostInfo.newImg);
 
     setNewPostInfo({ newTxt: '', newImg: {} });
+    const details = document.getElementById('details');
+    details.removeAttribute('open');
     setModalIsOpen(false);
 
     axios
@@ -513,46 +541,47 @@ const PostBox = () => {
         <div className="textWrapper">
           {(post.userId === authState.userId ||
             authState.userRole === 'isAdmin') && (
-            <>
-              <button
-                onClick={() => handleClickPopup(post.postText)}
-                className="updatePost"
-              >
-                Modifier
-              </button>
-
-              {modalIsOpen && (
-                <StyledPopup>
-                  <div className="popupFormWrapper2">
-                    <form
-                      className="popupForm"
-                      onSubmit={(e) => updatePost(e, post.id)}
-                      id="postForm"
-                      action="/"
-                      method="POST"
-                      encType="multipart/form-data"
-                    >
-                      <button className="closeBtn">
-                        <FontAwesomeIcon
-                          onClick={handleCloseModal}
-                          icon={faXmark}
-                        />
-                      </button>
-                      <textarea
-                        onChange={(e) =>
-                          setNewPostInfo({
-                            newTxt: e.target.value,
-                            newImg: newPostInfo.newImg,
-                          })
-                        }
-                        name="postText"
-                        value={newPostInfo.newTxt}
-                        id=""
-                        className="postForm__textarea"
-                        cols="30"
-                        rows="6"
-                      ></textarea>
-                      {/* {post.image && (
+            <details id="details" className="details">
+              <summary>...</summary>
+              <div className="detailsBtns">
+                <button
+                  onClick={() => handleClickPopup(post.postText)}
+                  className="updatePost"
+                >
+                  Modifier
+                </button>
+                {modalIsOpen && (
+                  <StyledPopup>
+                    <div className="popupFormWrapper2">
+                      <form
+                        className="popupForm"
+                        onSubmit={(e) => updatePost(e, post.id)}
+                        id="postForm"
+                        action="/"
+                        method="POST"
+                        encType="multipart/form-data"
+                      >
+                        <button className="closeBtn">
+                          <FontAwesomeIcon
+                            onClick={handleCloseModal}
+                            icon={faXmark}
+                          />
+                        </button>
+                        <textarea
+                          onChange={(e) =>
+                            setNewPostInfo({
+                              newTxt: e.target.value,
+                              newImg: newPostInfo.newImg,
+                            })
+                          }
+                          name="postText"
+                          value={newPostInfo.newTxt}
+                          id=""
+                          className="postForm__textarea"
+                          cols="30"
+                          rows="6"
+                        ></textarea>
+                        {/* {post.image && (
                         <>
                           <img
                             className="popupImg"
@@ -562,41 +591,44 @@ const PostBox = () => {
                         </>
                       )} */}
 
-                      <div className="iconsSubmitWrapper">
-                        <label htmlFor="newFile">
-                          <FontAwesomeIcon className="imgIcon" icon={faImage} />
-                        </label>
-                        <label htmlFor="newFile" className="imgName">
-                          {newPostInfo.newImg && newPostInfo.newImg.name}
-                          {/* {newPostInfo.newImg.name} */}
-                        </label>
-                        <input
-                          onChange={handleImgSelection}
-                          name="postImg"
-                          id="newFile"
-                          type="file"
-                          accept="image/*"
-                        />
-                        <input
-                          className="SendDataSubmit"
-                          type="submit"
-                          value="Publier"
-                        />
-                      </div>
-                    </form>{' '}
-                  </div>
-                </StyledPopup>
-              )}
-
-              <button
-                onClick={() => {
-                  deletePost(post.id);
-                }}
-                className="deletePost"
-              >
-                Supprimer
-              </button>
-            </>
+                        <div className="iconsSubmitWrapper">
+                          <label htmlFor="newFile">
+                            <FontAwesomeIcon
+                              className="imgIcon"
+                              icon={faImage}
+                            />
+                          </label>
+                          <label htmlFor="newFile" className="imgName">
+                            {newPostInfo.newImg && newPostInfo.newImg.name}
+                            {/* {newPostInfo.newImg.name} */}
+                          </label>
+                          <input
+                            onChange={handleImgSelection}
+                            name="postImg"
+                            id="newFile"
+                            type="file"
+                            accept="image/*"
+                          />
+                          <input
+                            className="SendDataSubmit"
+                            type="submit"
+                            value="Publier"
+                          />
+                        </div>
+                      </form>{' '}
+                    </div>
+                  </StyledPopup>
+                )}
+                <button
+                  onClick={() => {
+                    deletePost(post.id);
+                  }}
+                  className="deletePost"
+                >
+                  Supprimer
+                </button>{' '}
+              </div>
+            </details>
           )}
 
           <ul className="contentContainer" id="contentContainer">
@@ -629,6 +661,10 @@ const PostBox = () => {
 
         <input className="commentSubmit" type="submit" value="Publier" />
       </StyledCommentsWrapper>
+
+      <br />
+      <br />
+      <br />
     </div>
   ));
 };

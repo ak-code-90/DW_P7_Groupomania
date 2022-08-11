@@ -64,6 +64,7 @@ const StyledPostWapper = styled.div`
     top: 0;
     font-size: 25px;
     color: #fff;
+    cursor: pointer;
   }
 
   .detailsBtns {
@@ -71,13 +72,8 @@ const StyledPostWapper = styled.div`
     flex-direction: column;
     justify-content: flex-end;
     background-color: #fff;
-
     width: 255px;
     height: 0px;
-
-    summary {
-      cursor: pointer;
-    }
   }
 
   .textWrapper {
@@ -513,6 +509,7 @@ const PostBox = () => {
   return listOfPosts.map((post) => (
     <div key={post.id}>
       <StyledPostWapper>
+        {console.log(post)}
         <div className="iconWrapper">
           {post.userPic ? (
             <img className="userPic" src={post.userPic} alt=" " />
@@ -661,10 +658,6 @@ const PostBox = () => {
 
         <input className="commentSubmit" type="submit" value="Publier" />
       </StyledCommentsWrapper>
-
-      <br />
-      <br />
-      <br />
     </div>
   ));
 };

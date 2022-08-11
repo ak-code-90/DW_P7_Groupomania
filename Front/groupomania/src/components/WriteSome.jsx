@@ -109,24 +109,29 @@ const WriteSome = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const form = document.getElementById('postForm');
+    if ((postTxt === '') & (postImg === '')) {
+      alert('Oups ! vous avez oublié de dire quelque chose');
+    } else {
+      const form = document.getElementById('postForm');
 
-    const formData = new FormData();
-    formData.append('postImg', postImg);
-    formData.append('postText', postTxt);
-    formData.append('userPic', authState.userPic);
+      const formData = new FormData();
+      formData.append('postImg', postImg);
+      formData.append('postText', postTxt);
+      formData.append('userPic', authState.userPic);
 
-    axios
-      .post('http://localhost:5000/posts', formData, {
-        headers: { accessToken: localStorage.getItem('Token') },
-      })
-      .then(() => {
-        setForceRender(!forceRender);
-      })
-      .catch((error) => alert(error.response.data.error));
+      axios
+        .post('http://localhost:5000/posts', formData, {
+          headers: { accessToken: localStorage.getItem('Token') },
+        })
+        .then(() => {
+          setForceRender(!forceRender);
+        })
+        .catch((error) => alert(error.response.data.error));
 
-    form.reset(); // réinitialisation du formulaire après l'envoi
-    setPostImg('');
+      form.reset(); // réinitialisation du formulaire après l'envoi
+      setPostTxt('');
+      setPostImg('');
+    }
   };
 
   return (

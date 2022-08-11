@@ -86,11 +86,10 @@ const StyledPostWapper = styled.div`
   .updatePost {
     position: absolute;
     right: 0px;
-    background: ${colors.secondary};
-    color: ${colors.primary};
+    background: #fff;
+    color: ${colors.tertiary};
     border: none;
     width: 100px;
-    border: 2px solid ${colors.primary};
     height: 30px;
     margin: 0;
     margin-right: 15px;
@@ -509,7 +508,6 @@ const PostBox = () => {
   return listOfPosts.map((post) => (
     <div key={post.id}>
       <StyledPostWapper>
-        {console.log(post)}
         <div className="iconWrapper">
           {post.userPic ? (
             <img className="userPic" src={post.userPic} alt=" " />
@@ -631,7 +629,7 @@ const PostBox = () => {
           <ul className="contentContainer" id="contentContainer">
             <li>
               {post.username === 'Mr Admin' ? (
-                <span style={{ color: '#ff9b89' }}>{post.username}</span>
+                <span style={{ color: colors.secondary }}>{post.username}</span>
               ) : (
                 <span>{post.username}</span>
               )}

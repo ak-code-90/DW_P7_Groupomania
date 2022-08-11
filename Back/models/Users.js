@@ -11,24 +11,35 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      min: 2,
-      max: 20,
+      validate: {
+        is: {
+          args: /^.{2,15}$/,
+          msg: "Le nom d'utilisateur doit comprendre entre 2 et 15 caractères maximum",
+        },
+      },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
-        isEmail: true,
-        min: 5,
-        max: 35,
+        isEmail: {
+          msg: 'Le format email renseigné est incorrect',
+        },
+        is: {
+          args: /^.{8,}$/,
+          msg: "l'email doit contenir 8 caractères minimum",
+        },
       },
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: 8,
+        is: {
+          args: /^.{8,73}$/, //la longueur max du hash de bcrypt est de 72 caractères.
+          msg: 'Le mot de passe doit contenir au moins 8 caractères',
+        },
       },
     },
     userPic: {
@@ -38,6 +49,12 @@ module.exports = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        is: {
+          args: /^isUser$/,
+          msg: 'Le role doit être "isUser"',
+        },
+      },
     },
   });
 

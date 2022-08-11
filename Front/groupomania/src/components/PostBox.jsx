@@ -97,6 +97,7 @@ const StyledPostWapper = styled.div`
       padding: 0;
       border: none;
       width: 60%;
+      cursor: pointer;
       path {
         color: ${colors.primary};
         :hover {
@@ -111,6 +112,7 @@ const StyledPostWapper = styled.div`
       padding: 0;
       border: none;
       width: 60%;
+      cursor: pointer;
       path {
         color: white;
         :hover {
@@ -194,7 +196,7 @@ const StyledPopup = styled.div`
   top: 0;
   bottom: 0;
   z-index: 5;
-  background-color: #00000075;
+  background-color: #000000cc;
 
   .popupFormWrapper {
     background-color: #4e5166;
@@ -237,27 +239,17 @@ const StyledPopup = styled.div`
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
     margin: 30px auto;
     max-width: 800px;
-    height: 40%;
+    height: 50%;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
   }
 
-  .imgContentWrapper {
-    display: flex;
-
-    gap: 10px;
-
-    label {
-      margin-top: 5px;
-    }
-
-    .imgName {
-      align-self: flex-start;
-      margin-top: 10px;
-      cursor: pointer;
-      color: ${colors.secondary};
-    }
+  .imgName {
+    width: 70px;
+    margin-top: 10px;
+    cursor: pointer;
+    color: ${colors.secondary};
   }
 
   .popupImg {
@@ -295,15 +287,15 @@ const StyledPopup = styled.div`
   .iconsSubmitWrapper {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 230px;
     width: 100%;
     height: 125px;
     padding-bottom: 25px;
     box-sizing: border-box;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    margin-top: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
   }
 
   .SendDataSubmit {
@@ -322,7 +314,7 @@ const StyledPopup = styled.div`
     box-shadow: 0px 1px 7px #fd2d01;
   }
 
-  #file-input {
+  #newFile {
     display: none;
   }
 
@@ -390,11 +382,10 @@ const StyledCommentsWrapper = styled.div`
 const PostBox = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
-  const { authState /*setAuthState*/ } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
   const { forceRender, setForceRender } = useContext(RenderContext); // transformer ce state en context pour pouvoir l'utiliser partout
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [postInfo, setPostInfo] = useState({});
-  const [newImgInfo, setNewImgInfo] = useState({});
+  const [newPostInfo, setNewPostInfo] = useState({ newTxt: '', newImg: '' });
 
   const deletePost = (id) => {
     axios
@@ -425,22 +416,50 @@ const PostBox = () => {
       });
   };
 
-  const handleClickPopup = (postInfo) => {
-    console.log(postInfo);
-    setPostInfo(postInfo);
+  const handleClickPopup = (newInfo) => {
+    setNewPostInfo({
+      //mettre à jour ce state permet d'afficher le text du post dans le placeholder du text-area
+      newTxt: newInfo,
+      newImg: newPostInfo.newImg,
+    });
+
     setModalIsOpen(!modalIsOpen);
   };
 
-  const handleNewPostSelected = () => {};
-
-  const handleNewPostSubmitted = () => {};
-
-  const updatePost = (e) => {
-    axios.put('http://localhost:5000/posts', {
-      headers: {
-        accessToken: localStorage.getItem('Token'),
-      },
+  const handleImgSelection = (e) => {
+    setNewPostInfo({
+      //mettre à jour ce state permet d'afficher le nom du nouveau fichier sélectionné
+      newTxt: newPostInfo.newTxt,
+      newImg: e.target.files[0],
     });
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+    setNewPostInfo({ newTxt: '', newImg: {} });
+  };
+
+  const updatePost = (e, id) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('postText', newPostInfo.newTxt);
+    formData.append('postImg', newPostInfo.newImg);
+
+    setNewPostInfo({ newTxt: '', newImg: {} });
+    setModalIsOpen(false);
+
+    axios
+      .put(`http://localhost:5000/posts/${id}`, formData, {
+        headers: {
+          accessToken: localStorage.getItem('Token'),
+        },
+      })
+      .then((res) => {
+        setForceRender(!forceRender);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -454,7 +473,7 @@ const PostBox = () => {
         setListOfPosts(response.data.listOfPosts);
         setLikedPosts(
           response.data.likedPosts.map((like) => {
-            // je stock dans un state un tableau avec l'id de chaque post liké par l'utilisateur
+            // stockage sous forme de tableau de l'id de chaque post liké par l'utilisateur
             return like.PostId;
           })
         );
@@ -496,7 +515,7 @@ const PostBox = () => {
             authState.userRole === 'isAdmin') && (
             <>
               <button
-                onClick={() => handleClickPopup(post)}
+                onClick={() => handleClickPopup(post.postText)}
                 className="updatePost"
               >
                 Modifier
@@ -504,14 +523,10 @@ const PostBox = () => {
 
               {modalIsOpen && (
                 <StyledPopup>
-                  <div
-                    className={
-                      !postInfo.image ? 'popupFormWrapper2' : 'popupFormWrapper'
-                    }
-                  >
+                  <div className="popupFormWrapper2">
                     <form
                       className="popupForm"
-                      onSubmit={console.log(55)}
+                      onSubmit={(e) => updatePost(e, post.id)}
                       id="postForm"
                       action="/"
                       method="POST"
@@ -519,50 +534,50 @@ const PostBox = () => {
                     >
                       <button className="closeBtn">
                         <FontAwesomeIcon
-                          onClick={() => setModalIsOpen(false)}
+                          onClick={handleCloseModal}
                           icon={faXmark}
                         />
                       </button>
                       <textarea
-                        // onChange={(e) => setPostTxt(e.target.value)}
+                        onChange={(e) =>
+                          setNewPostInfo({
+                            newTxt: e.target.value,
+                            newImg: newPostInfo.newImg,
+                          })
+                        }
                         name="postText"
+                        value={newPostInfo.newTxt}
                         id=""
                         className="postForm__textarea"
                         cols="30"
                         rows="6"
-                      >
-                        {postInfo.postText}
-                      </textarea>
-                      {postInfo.image && (
+                      ></textarea>
+                      {/* {post.image && (
                         <>
                           <img
                             className="popupImg"
-                            src={`http://localhost:5000/${postInfo.image}`}
+                            src={`http://localhost:5000/${post.image}`}
                             alt=""
                           />
-                          <div className="imgContentWrapper">
-                            {console.log(postInfo.image)}
-                            {/* <label htmlFor="file-input" className="imgName">
-                              {postInfo.image.split('\\')[1]}
-                            </label> */}
-                          </div>
                         </>
-                      )}
+                      )} */}
 
                       <div className="iconsSubmitWrapper">
-                        <label htmlFor="file-input">
+                        <label htmlFor="newFile">
                           <FontAwesomeIcon className="imgIcon" icon={faImage} />
                         </label>
-
+                        <label htmlFor="newFile" className="imgName">
+                          {newPostInfo.newImg && newPostInfo.newImg.name}
+                          {/* {newPostInfo.newImg.name} */}
+                        </label>
                         <input
-                          onChange={handleNewPostSelected}
-                          name="image"
-                          id="file-input"
+                          onChange={handleImgSelection}
+                          name="postImg"
+                          id="newFile"
                           type="file"
                           accept="image/*"
                         />
                         <input
-                          onSubmit={handleNewPostSubmitted}
                           className="SendDataSubmit"
                           type="submit"
                           value="Publier"

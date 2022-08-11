@@ -48,6 +48,14 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   // Users.associate = (models) => {
+  //   Users.hasMany(models.Posts, {
+  //     onDelete: 'cascade',
+  //   });
+  // };
+
+  // Posts.belongsTo(Users);
+
+  // Users.associate = (models) => {
   //   //on associe la table user à la table posts
   //   Users.hasMany(models.Posts, {
   //     onDelete: 'cascade',

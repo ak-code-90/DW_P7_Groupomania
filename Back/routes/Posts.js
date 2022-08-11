@@ -7,6 +7,7 @@ const { validateToken } = require('../middlewares/auth');
 const PostCtrl = require('../controllers/posts');
 
 router.post('/', validateToken, upload, PostCtrl.createPost);
+router.put('/:postId', validateToken, upload, PostCtrl.updatePost);
 router.get('/', validateToken, PostCtrl.getAllPosts);
 router.delete('/:postId', validateToken, PostCtrl.deletePost);
 

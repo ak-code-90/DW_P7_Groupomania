@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+
+    // Enlever cette colonne 'userId' si on veut pourvoir supprimer un compte ainsi que tout ses Posts,commentaires,likes... privilégier des relations entre les différentes tables
     userId: {
       type: DataTypes.UUID,
       allowNull: true,

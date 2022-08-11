@@ -19,8 +19,9 @@ exports.getAllPosts = async (req, res, next) => {
 };
 
 exports.createPost = async (req, res) => {
-  //comportement du server lors d'une requête POST sur "/posts"
   try {
+    const file = req.file;
+
     let data = {};
 
     const username = userInfo.validToken.username; // on recupère les données utilisateur récupérés dans le middleware d'authentification
@@ -45,9 +46,46 @@ exports.createPost = async (req, res) => {
     }
 
     await Posts.create(data);
+    data.file = file;
+    console.log(data);
     res.json(data);
   } catch (error) {
     res.json(error);
+  }
+};
+
+exports.updatePost = async (req, res) => {
+  try {
+    let response = {};
+    console.log(req.body.postText);
+
+    const postId = req.params.postId;
+    const username = userInfo.validToken.username;
+    const userId = userInfo.validToken.id;
+
+    if (req.file) {
+      response = {
+        username: username,
+        userId: userId,
+        postText: req.body.postText,
+        image: req.file.path,
+        userPic: req.body.userPic,
+      };
+    } else {
+      response = {
+        image: '',
+        postText: req.body.postText,
+        username: username,
+        userId: userId,
+        userPic: req.body.userPic,
+      };
+    }
+
+    await Posts.update(response, { where: { id: postId } });
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error });
   }
 };
 

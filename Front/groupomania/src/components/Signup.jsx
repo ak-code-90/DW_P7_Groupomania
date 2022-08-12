@@ -118,38 +118,54 @@ const Signup = () => {
   const [firstpasswordVal, setPassword1] = useState('');
   const [secondPasswordVal, setPassword2] = useState('');
 
+  let psw = document.getElementById('password');
+  let regexPassword =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_+&€/()|{}~:!,?.@#\($%\^&\*])(?=.{8,})/;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     let userData = {};
+    userData = {
+      username: usernameVal,
+      email: emailVal,
+      password: firstpasswordVal,
+      role: 'isUser',
+    };
 
-    if (firstpasswordVal === secondPasswordVal) {
-      userData = {
-        username: usernameVal,
-        email: emailVal,
-        password: firstpasswordVal,
-        role: 'isUser',
-      };
-      let data = JSON.stringify(userData);
-      console.log(userData);
+    let data = JSON.stringify(userData);
+    console.log(userData);
 
-      fetch('http://localhost:5000/auth', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: data,
+    fetch('http://localhost:5000/auth', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: data,
+    })
+      .then(function (response) {
+        return response.json();
       })
-        .then(function (response) {
-          return response.json();
-        })
-        .then(() => {
-          alert('Votre compte a bien été enregistré');
-          document.location.href = 'http://localhost:3000';
-        })
-        .catch((error) => alert(error.response.data.error));
+      .then(() => {
+        alert('Votre compte a bien été enregistré');
+        document.location.href = 'http://localhost:3000';
+      })
+      .catch((error) => alert(error.response.data.error));
+  };
+
+  const passwordValidation = (e) => {
+    if (firstpasswordVal === secondPasswordVal) {
+      if (regexPassword.test(psw.value) === false) {
+        psw.setCustomValidity(
+          'les mots de passe doivent contenir un minimum de 8 caractères, dont au moins une minuscule, une majuscule, un chiffre et un caractère spécial'
+        );
+        psw.reportValidity(); //permet d'afficher le message d'erreur custom
+      } else {
+        handleSubmit();
+      }
     } else {
-      alert('les mots de passe doivent correspondre');
+      psw.setCustomValidity('les mots de passe doivent correspondre');
+      psw.reportValidity();
     }
   };
 
@@ -165,6 +181,7 @@ const Signup = () => {
           action="http://localhost:5000/register"
           onSubmit={handleSubmit}
           className="form"
+          id="form"
         >
           <div className="form_input_wrapper">
             <label htmlFor="name">Nom d'utilisateur</label>
@@ -175,7 +192,8 @@ const Signup = () => {
               name="username"
               id="name"
               minLength="2"
-              size="35"
+              maxLength="35"
+              size="15"
             />
             <label htmlFor="email">Email</label>
             <input
@@ -184,8 +202,7 @@ const Signup = () => {
               id="email"
               name="email"
               required
-              minLength="6"
-              maxLength="35"
+              minLength="8"
               size="35"
             />
             <label htmlFor="password">Mot de passe</label>
@@ -195,23 +212,19 @@ const Signup = () => {
               id="password"
               name="password"
               required
-              minLength="6"
-              maxLength="40"
               size="35"
             />
             <label htmlFor="password">Confirmer le mot de passe</label>
             <input
               onChange={(e) => setPassword2(e.target.value)}
               type="password"
-              id="password"
+              id="psw2"
               name="password"
               required
-              minLength="6"
-              maxLength="40"
               size="35"
             />
 
-            <input type="submit" value="Envoyer" />
+            <input onClick={passwordValidation} type="submit" value="Envoyer" />
           </div>
         </form>
       </div>

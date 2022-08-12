@@ -54,7 +54,7 @@ const StyledWrapper = styled.div`
 
   input[type='submit'] {
     background: ${colors.primary};
-    color: white;
+    color: ${colors.tertiary};
     border: none;
     width: 170px;
     height: 50px;

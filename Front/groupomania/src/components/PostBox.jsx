@@ -319,7 +319,7 @@ const StyledPopup = styled.div`
 
   .SendDataSubmit {
     background: ${colors.primary};
-    color: white;
+    color: ${colors.tertiary};
     border: none;
     width: 170px;
     height: 50px;
@@ -385,7 +385,7 @@ const StyledCommentsWrapper = styled.div`
 
   .commentSubmit {
     background: ${colors.primary};
-    color: white;
+    color: ${colors.tertiary};
     border: none;
     width: 170px;
     height: 50px;
@@ -629,7 +629,9 @@ const PostBox = () => {
           <ul className="contentContainer" id="contentContainer">
             <li>
               {post.username === 'Mr Admin' ? (
-                <span style={{ color: colors.secondary }}>{post.username}</span>
+                <span style={{ color: `${colors.primary}` }}>
+                  {post.username}
+                </span>
               ) : (
                 <span>{post.username}</span>
               )}

@@ -172,8 +172,7 @@ const LoginCard = () => {
               id="email"
               name="email"
               required
-              minLength="6"
-              maxLength="30"
+              minLength="8"
               size="35"
             />
             <label htmlFor="password">Mot de passe</label>
@@ -183,8 +182,8 @@ const LoginCard = () => {
               id="password"
               name="password"
               required
-              minLength="6"
-              maxLength="40"
+              minLength="8"
+              maxLength="73"
               size="35"
             />
             <a href="/#">Mot de passe oublié ?</a>

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         is: {
-          args: /^.{2,15}$/,
+          args: /^.{2,35}$/,
           msg: "Le nom d'utilisateur doit comprendre entre 2 et 15 caractères maximum",
         },
       },
@@ -36,10 +36,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        is: {
-          args: /^.{8,73}$/, //la longueur max du hash de bcrypt est de 72 caractères.
-          msg: 'Le mot de passe doit contenir au moins 8 caractères',
-        },
+        // is: {
+        //   args: /^.{8,73}$/, //la longueur max du hash de bcrypt est de 72 caractères.
+        //   msg: 'Le mot de passe doit contenir au moins 8 caractères',
+        // },
       },
     },
     userPic: {

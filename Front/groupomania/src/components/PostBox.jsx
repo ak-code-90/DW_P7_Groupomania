@@ -55,7 +55,8 @@ const StyledPostWapper = styled.div`
   border-radius: 8px 8px 0 0;
   display: flex;
   padding: 20px;
-  position: relative;
+  padding-left: 10px;
+  /* position: relative; */
 
   .details {
     position: absolute;
@@ -109,6 +110,7 @@ const StyledPostWapper = styled.div`
     justify-content: space-between;
     align-items: center;
     min-height: 130px;
+    margin-right: 10px;
 
     .heartIconBtn_liked {
       background-color: transparent;
@@ -141,8 +143,8 @@ const StyledPostWapper = styled.div`
     }
 
     .userIconImg {
-      width: 50px;
-      height: 50px;
+      width: 35px;
+      height: 35px;
       color: #4e5166;
       background-color: white;
       border-radius: 100%;
@@ -154,7 +156,7 @@ const StyledPostWapper = styled.div`
       justify-content: center;
       align-items: center;
       gap: 8px;
-      padding: 14px 0;
+      padding: 14px 0 0 0;
       margin-top: 25px;
       label {
         font-size: 16px;
@@ -179,10 +181,15 @@ const StyledPostWapper = styled.div`
   }
 
   .userPic {
-    width: 85px;
-    height: 85px;
+    box-sizing: border-box;
+    width: 71px;
+    height: 71px;
     border-radius: 100%;
     border: 3px solid ${colors.secondary};
+  }
+
+  .likeInfo {
+    width: 100%;
   }
 
   .contentContainer {
@@ -193,7 +200,7 @@ const StyledPostWapper = styled.div`
       color: ${colors.secondary};
     }
     p {
-      margin: 10px;
+      margin: 10px 0 10px 0;
       font-size: 19px;
       color: #fff;
       overflow-wrap: break-word;
@@ -201,10 +208,64 @@ const StyledPostWapper = styled.div`
     img {
       object-fit: cover;
       border-radius: 8px;
-      margin: 10px;
-      height: 400px;
-      width: 650px;
+      height: auto;
+      max-width: 100%;
       overflow: hidden;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    position: relative;
+
+    .details {
+      margin-top: 5px;
+      right: 12px;
+    }
+
+    .textWrapper {
+      position: initial;
+    }
+    .contentContainer span {
+      margin: 0;
+      margin-left: 6px;
+      /* position: relative; */
+    }
+
+    .iconWrapper {
+      min-height: 0px;
+      margin-top: 45px;
+      margin-bottom: 5px;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .iconWrapper .likeInfo {
+      position: absolute;
+      margin: 0;
+      padding: 0;
+      right: 6px;
+      top: 19px;
+      width: 45px;
+    }
+    .iconWrapper .userIconImg {
+      height: 35px;
+      width: 35px;
+      margin-left: 6px;
+    }
+    .userPic {
+      margin-left: 6px;
+    }
+
+    .contentContainer img {
+      height: auto;
+      max-width: 100%;
+      margin: 6px 0;
+      border-radius: 0;
+    }
+    .contentContainer p {
+      margin: 6px;
     }
   }
 `;
@@ -258,17 +319,15 @@ const StyledPopup = styled.div`
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.274);
     margin: 30px auto;
     max-width: 800px;
-    height: 50%;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
   }
 
   .imgName {
-    width: 70px;
-    margin-top: 10px;
     cursor: pointer;
-    color: ${colors.secondary};
+    color: #fff;
+    font-size: 19px;
   }
 
   .popupImg {
@@ -308,13 +367,11 @@ const StyledPopup = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 230px;
     width: 100%;
-    height: 125px;
+    height: auto;
     padding-bottom: 25px;
     box-sizing: border-box;
     padding: 15px;
-    margin-bottom: 12px;
   }
 
   .SendDataSubmit {
@@ -323,6 +380,7 @@ const StyledPopup = styled.div`
     border: none;
     width: 170px;
     height: 50px;
+    margin: 0 0 15px 0;
 
     cursor: pointer;
     font-size: 17px;
@@ -330,7 +388,7 @@ const StyledPopup = styled.div`
   }
 
   input[type='submit']:hover {
-    box-shadow: 0px 1px 7px #fd2d01;
+    box-shadow: 0px 1px 7px ${colors.primary};
   }
 
   #newFile {
@@ -341,6 +399,17 @@ const StyledPopup = styled.div`
     font-size: 30px;
     color: #fff;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 550px) {
+    .iconsSubmitWrapper {
+      .imgName {
+        font-size: 17px;
+      }
+    }
+    .SendDataSubmit {
+      width: 100px;
+    }
   }
 `;
 
@@ -401,6 +470,19 @@ const StyledCommentsWrapper = styled.div`
   }
 
   @media screen and (max-width: 550px) {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+
+    gap: 6px;
+
+    .userIconImg {
+      display: none;
+    }
+    .commentSubmit {
+      margin: 0;
+      margin-bottom: 10px;
+    }
   }
 `;
 
@@ -608,21 +690,21 @@ const PostBox = () => {
                           </label>
                           <label htmlFor="newFile" className="imgName">
                             {newPostInfo.newImg && newPostInfo.newImg.name}
-                            {/* {newPostInfo.newImg.name} */}
                           </label>
-                          <input
-                            onChange={handleImgSelection}
-                            name="postImg"
-                            id="newFile"
-                            type="file"
-                            accept="image/*"
-                          />
-                          <input
-                            className="SendDataSubmit"
-                            type="submit"
-                            value="Publier"
-                          />
                         </div>
+
+                        <input
+                          onChange={handleImgSelection}
+                          name="postImg"
+                          id="newFile"
+                          type="file"
+                          accept="image/*"
+                        />
+                        <input
+                          className="SendDataSubmit"
+                          type="submit"
+                          value="Publier"
+                        />
                       </form>{' '}
                     </div>
                   </StyledPopup>

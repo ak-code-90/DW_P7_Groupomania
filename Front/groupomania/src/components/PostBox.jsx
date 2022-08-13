@@ -399,6 +399,9 @@ const StyledCommentsWrapper = styled.div`
       box-shadow: 0px 1px 7px #ecbaba;
     }
   }
+
+  @media screen and (max-width: 550px) {
+  }
 `;
 
 const PostBox = () => {

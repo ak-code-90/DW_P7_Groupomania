@@ -97,6 +97,12 @@ const StyledWrapper = styled.div`
 
   @media screen and (max-width: 550px) {
     margin-top: 180px;
+
+    input[type='submit'] {
+      margin-right: 0px;
+      width: 100%;
+      max-width: 140px;
+    }
   }
 `;
 
@@ -177,7 +183,7 @@ const WriteSome = () => {
             />
           </div>
 
-          <input className="SendDataSubmit" type="submit" value="Publier" />
+          <input className="sendDataSubmit" type="submit" value="Publier" />
         </div>
       </form>
     </StyledWrapper>

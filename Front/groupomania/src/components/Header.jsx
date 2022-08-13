@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import iconLight from '../assets/logo-icon.svg';
 import { AuthContext } from '../utils/context/authContext';
+import colors from '../utils/colors';
 
 const NavContainer = styled.nav`
   background-color: #4e5166;
@@ -36,18 +37,23 @@ const NavContainer = styled.nav`
   @media screen and (max-width: 550px) {
     flex-direction: column;
 
+    .logo {
+      margin: 0;
+      margin-top: 12px;
+    }
+
     div {
       flex-direction: column-reverse;
       width: 90%;
     }
     div a {
       z-index: -1;
-      color: #fff;
+      color: ${colors.tertiary};
       font-size: 19px;
       text-align: center;
       margin: 0;
       padding: 35px 0;
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid ${colors.tertiary};
       width: 100%;
       cursor: pointer;
     }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import colors from '../utils/colors';
 
 const StyledCard = styled.main`
   background: #4e5166;
@@ -10,7 +11,9 @@ const StyledCard = styled.main`
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.65);
   height: 500px;
   margin: 60px auto 60px auto;
-  width: 500px;
+  padding: 5px;
+  max-width: 500px;
+  width: 85%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,6 +91,7 @@ const StyledCard = styled.main`
     border-radius: 3px;
     height: 22px;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .form_input_wrapper label {
@@ -109,8 +113,8 @@ const StyledCard = styled.main`
   }
 
   input[type='submit'] {
-    background: #fd2d01;
-    color: white;
+    background: ${colors.primary};
+    color: ${colors.tertiary};
     border: none;
     width: 100%;
     height: 50px;
@@ -120,7 +124,7 @@ const StyledCard = styled.main`
   }
 
   input[type='submit']:hover {
-    box-shadow: 0px 1px 7px #fd2d01;
+    box-shadow: 0px 1px 7px ${colors.primary};
   }
 
   span {

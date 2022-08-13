@@ -76,7 +76,7 @@ const StyledWrapper = styled.div`
   }
 
   input[type='submit']:hover {
-    box-shadow: 0px 1px 7px #fd2d01;
+    box-shadow: 0px 1px 7px #ecbaba;
   }
 
   #file-input {
@@ -146,6 +146,7 @@ const WriteSome = () => {
         <textarea
           onChange={(e) => setPostTxt(e.target.value)}
           placeholder="Écrivez quelque chose..."
+          aria-label="rédiger un post"
           name="postText"
           id=""
           className="postForm__textarea"
@@ -155,9 +156,17 @@ const WriteSome = () => {
         <div className="iconsSubmitWrapper">
           <div className="iconWrapper">
             <label htmlFor="file-input">
-              <FontAwesomeIcon className="imgIcon" icon={faImage} />
+              <FontAwesomeIcon
+                aria-label="poster une image"
+                className="imgIcon"
+                icon={faImage}
+              />
               {postImg.name}
-              <FontAwesomeIcon className="imgIcon" icon={faFaceGrin} />
+              <FontAwesomeIcon
+                // aria-label="poster une image"
+                className="imgIcon"
+                icon={faFaceGrin}
+              />
             </label>
             <input
               onChange={(e) => setPostImg(e.target.files[0])}

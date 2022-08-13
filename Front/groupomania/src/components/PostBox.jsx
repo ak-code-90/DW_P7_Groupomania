@@ -86,7 +86,7 @@ const StyledPostWapper = styled.div`
   .updatePost {
     position: absolute;
     right: 0px;
-    background: #fff;
+    background: ${colors.primary};
     color: ${colors.tertiary};
     border: none;
     width: 100px;
@@ -395,6 +395,9 @@ const StyledCommentsWrapper = styled.div`
     cursor: pointer;
     font-size: 17px;
     border-radius: 8px;
+    :hover {
+      box-shadow: 0px 1px 7px #ecbaba;
+    }
   }
 `;
 
@@ -510,7 +513,11 @@ const PostBox = () => {
       <StyledPostWapper>
         <div className="iconWrapper">
           {post.userPic ? (
-            <img className="userPic" src={post.userPic} alt=" " />
+            <img
+              className="userPic"
+              src={post.userPic}
+              alt="profil utilisateur"
+            />
           ) : (
             <FontAwesomeIcon className="userIconImg" icon={faUser} />
           )}
@@ -520,6 +527,9 @@ const PostBox = () => {
               onClick={() => {
                 HandleALike(post.id);
               }}
+              aria-label={
+                likedPosts.includes(post.id) ? "j'aime" : "Je n'aime plus" // définition de l'aria label en fonction de si l'utilisateur à déja liké ou non
+              }
               className={
                 likedPosts.includes(post.id) // Si l'utilisateur a déjà liké, on affiche un coeur rouge, sinon un coeur blanc
                   ? 'heartIconBtn_liked'
@@ -652,6 +662,7 @@ const PostBox = () => {
         <FontAwesomeIcon className="userIconImg" icon={faUser} />
         <input
           type="textarea"
+          aria-label="rédiger un commentaire"
           placeholder="Ajouter un commentaire..."
           className="commentsTextarea"
         />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import iconLight from '../assets/logo-icon.svg';
 import { useState } from 'react';
+import colors from '../utils/colors';
 
 const StyledSignup = styled.main`
   background: #4e5166;
@@ -10,11 +11,13 @@ const StyledSignup = styled.main`
   box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.65);
   height: auto;
   margin: 60px auto 60px auto;
-  width: 500px;
+  max-width: 500px;
+  width: 85%;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding: 5px;
 
   .firstLink {
     display: flex;
@@ -72,6 +75,7 @@ const StyledSignup = styled.main`
     border-radius: 4px;
     height: 22px;
     width: 100%;
+    box-sizing: border-box;
   }
 
   .form_input_wrapper label {
@@ -92,8 +96,8 @@ const StyledSignup = styled.main`
   }
 
   input[type='submit'] {
-    background: #fd2d01;
-    color: white;
+    background: ${colors.primary};
+    color: ${colors.tertiary};
     border: none;
     width: 100%;
     height: 50px;
@@ -103,7 +107,7 @@ const StyledSignup = styled.main`
   }
 
   input[type='submit']:hover {
-    box-shadow: 0px 1px 7px #fd2d01;
+    box-shadow: 0px 1px 7px ${colors.primary};
   }
 
   span {
@@ -123,7 +127,6 @@ const Signup = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_+&€/()|{}~:!,?.@#\($%\^&\*])(?=.{8,})/;
 
   const handleSubmit = (event) => {
-    event.preventDefault();
     let userData = {};
     userData = {
       username: usernameVal,
@@ -161,6 +164,7 @@ const Signup = () => {
         );
         psw.reportValidity(); //permet d'afficher le message d'erreur custom
       } else {
+        e.preventDefault();
         handleSubmit();
       }
     } else {
@@ -214,12 +218,12 @@ const Signup = () => {
               required
               size="35"
             />
-            <label htmlFor="password">Confirmer le mot de passe</label>
+            <label htmlFor="psw2">Confirmer le mot de passe</label>
             <input
               onChange={(e) => setPassword2(e.target.value)}
               type="password"
               id="psw2"
-              name="password"
+              name="psw2"
               required
               size="35"
             />

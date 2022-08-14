@@ -554,10 +554,10 @@ const PostBox = () => {
     formData.append('postText', newPostInfo.newTxt);
     formData.append('postImg', newPostInfo.newImg);
 
-    setNewPostInfo({ newTxt: '', newImg: {} });
-    const details = document.getElementById('details');
-    details.removeAttribute('open');
-    setModalIsOpen(false);
+    // setNewPostInfo({ newTxt: '', newImg: {} });
+    // const details = document.getElementById('details');
+    // details.removeAttribute('open');
+    // setModalIsOpen(false);
 
     axios
       .put(`http://localhost:5000/posts/${id}`, formData, {
@@ -571,6 +571,8 @@ const PostBox = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    handleCloseModal();
   };
 
   useEffect(() => {

@@ -32,6 +32,21 @@ const NavContainer = styled.nav`
     margin-right: 50px;
     font-size: 19px;
     cursor: pointer;
+    display: inline;
+    position: relative;
+    &:hover::after {
+      transform: scale(1);
+    }
+  }
+  div a::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    transform: scale(0);
+    transition: transform 0.3s ease-in-out;
   }
 
   @media screen and (max-width: 550px) {
@@ -78,7 +93,7 @@ const Header = () => {
   return (
     <NavContainer>
       <img className="logo" src={iconLight} alt="" />
-      <div>
+      <div className="linkWrapper">
         <Link to="/profil">Profil</Link>
         <Link onClick={logout} to="/">
           Déconnexion

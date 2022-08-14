@@ -23,6 +23,7 @@ const StyledWrapper = styled.div`
   textarea {
     box-sizing: border-box;
     width: 100%;
+    min-height: 40%;
     margin: 30px 0 0 0;
     background-color: #4e5166;
     color: #fff;
@@ -49,7 +50,7 @@ const StyledWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     margin: 0;
-    padding: 15px;
+    padding: 15px 30px;
   }
 
   input[type='submit'] {
@@ -59,7 +60,7 @@ const StyledWrapper = styled.div`
     width: 170px;
     height: 50px;
     margin: 0;
-    margin-right: 15px;
+    /* margin-right: 15px; */
     padding: 0;
     cursor: pointer;
     font-size: 17px;
@@ -85,8 +86,8 @@ const StyledWrapper = styled.div`
   .iconWrapper label {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-left: 15px;
+    gap: 10px;
+    /* margin-left: 15px; */
     color: ${colors.secondary};
   }
   .imgIcon {
@@ -159,7 +160,10 @@ const WriteSome = () => {
           cols="30"
           rows="6"
         ></textarea>
-        <div className="iconsSubmitWrapper">
+        <div
+          style={postImg.name && { flexDirection: 'column', gap: '12px' }}
+          className="iconsSubmitWrapper"
+        >
           <div className="iconWrapper">
             <label htmlFor="file-input">
               <FontAwesomeIcon
@@ -167,7 +171,7 @@ const WriteSome = () => {
                 className="imgIcon"
                 icon={faImage}
               />
-              {postImg.name}
+              <span>{postImg.name}</span>
               <FontAwesomeIcon
                 // aria-label="poster une image"
                 className="imgIcon"

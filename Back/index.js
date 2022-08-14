@@ -2,9 +2,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config({ path: './config/.env' });
+const helmet = require('helmet');
 
 app.use(express.json()); //analyse du corps des requêtes JSON
 app.use(cors()); //gestion des erreurs CORS
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } })); //configuration des en-têtes HTTP
+app.disable('x-powered-by');
 
 const db = require('./models');
 

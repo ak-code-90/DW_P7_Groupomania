@@ -155,7 +155,6 @@ const StyledPostWapper = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
       padding: 14px 0 0 0;
       margin-top: 25px;
       label {
@@ -230,7 +229,6 @@ const StyledPostWapper = styled.div`
     .contentContainer span {
       margin: 0;
       margin-left: 6px;
-      /* position: relative; */
     }
 
     .iconWrapper {
@@ -490,7 +488,7 @@ const PostBox = () => {
   const [listOfPosts, setListOfPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const { authState } = useContext(AuthContext);
-  const { forceRender, setForceRender } = useContext(RenderContext); // transformer ce state en context pour pouvoir l'utiliser partout
+  const { forceRender, setForceRender } = useContext(RenderContext);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newPostInfo, setNewPostInfo] = useState({ newTxt: '', newImg: '' });
 
@@ -554,11 +552,6 @@ const PostBox = () => {
     formData.append('postText', newPostInfo.newTxt);
     formData.append('postImg', newPostInfo.newImg);
 
-    // setNewPostInfo({ newTxt: '', newImg: {} });
-    // const details = document.getElementById('details');
-    // details.removeAttribute('open');
-    // setModalIsOpen(false);
-
     axios
       .put(`http://localhost:5000/posts/${id}`, formData, {
         headers: {
@@ -618,7 +611,7 @@ const PostBox = () => {
                 likedPosts.includes(post.id) ? "j'aime" : "Je n'aime plus" // définition de l'aria label en fonction de si l'utilisateur à déja liké ou non
               }
               className={
-                likedPosts.includes(post.id) // Si l'utilisateur a déjà liké, on affiche un coeur rouge, sinon un coeur blanc
+                likedPosts.includes(post.id) // Si l'utilisateur a déjà liké, on affiche un coeur rose, sinon un coeur blanc
                   ? 'heartIconBtn_liked'
                   : 'heartIconBtn_unliked'
               }
@@ -673,16 +666,6 @@ const PostBox = () => {
                           cols="30"
                           rows="6"
                         ></textarea>
-                        {/* {post.image && (
-                        <>
-                          <img
-                            className="popupImg"
-                            src={`http://localhost:5000/${post.image}`}
-                            alt=""
-                          />
-                        </>
-                      )} */}
-
                         <div className="iconsSubmitWrapper">
                           <label htmlFor="newFile">
                             <FontAwesomeIcon

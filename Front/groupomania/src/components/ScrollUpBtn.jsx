@@ -25,6 +25,10 @@ const StyledButton = styled.div`
     font-size: 25px;
     color: #fff;
   }
+
+  @media screen and (max-width: 990px) {
+    display: none;
+  }
 `;
 
 const handleClick = () => {
@@ -37,11 +41,11 @@ const handleClick = () => {
 
 const ScrollUpBtn = () => {
   return (
-    <StyledButton class="btn">
+    <StyledButton className="btn">
       <FontAwesomeIcon
         onClick={handleClick}
         className="icone"
-        icon={faArrowUp}
+        icon={faAngleUp}
       />
     </StyledButton>
   );

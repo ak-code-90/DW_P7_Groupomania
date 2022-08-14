@@ -40,7 +40,7 @@ exports.loginUser = async (req, res) => {
                 userRole: user.role,
                 userPic: user.userPic,
               },
-              '2525',
+              `${process.env.RANDOM_TOKEN_SECRET}`,
               {
                 expiresIn: '24h',
               }

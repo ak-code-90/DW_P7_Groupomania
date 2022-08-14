@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faAnglesUp,
-  faAngleUp,
-  faArrowUp,
-} from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import colors from '../utils/colors';
 
 const StyledButton = styled.div`

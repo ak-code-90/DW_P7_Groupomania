@@ -8,7 +8,7 @@ const UserCtrl = require('../controllers/users');
 
 router.post('/', UserCtrl.createUser); // route de création d'un utilisateur
 router.post('/login', UserCtrl.loginUser); // route d'identification d'un utilisateur
-router.get('/auth', validateToken, UserCtrl.checkValidToken);
+router.get('/auth', validateToken, UserCtrl.checkValidToken); // route d'authentification d'un utilisateur
 
 // router.put('/:id',upload, PostCtrl.editOneUser);      // route de modification d'utilisateur
 // router.delete('/:id', PostCtrl.deleteOneUser);          // route de suppression d'utilisateur

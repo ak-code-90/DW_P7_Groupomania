@@ -505,47 +505,6 @@ const PostBox = () => {
       });
   };
 
-  const HandleALike = (postId) => {
-    axios
-      .post(
-        'http://localhost:5000/likes',
-        { PostId: postId },
-        {
-          headers: {
-            accessToken: localStorage.getItem('Token'),
-          },
-        }
-      )
-      .then(() => {
-        setForceRender(!forceRender);
-      });
-  };
-
-  const handleClickPopup = (newInfo) => {
-    setModalIsOpen(!modalIsOpen);
-    setNewPostInfo({
-      //mettre à jour ce state permet d'afficher le text du post dans le placeholder du text-area
-      newTxt: newInfo,
-      newImg: newPostInfo.newImg,
-    });
-  };
-
-  const handleImgSelection = (e) => {
-    setNewPostInfo({
-      //mettre à jour ce state permet d'afficher le nom du nouveau fichier sélectionné
-      newTxt: newPostInfo.newTxt,
-      newImg: e.target.files[0],
-    });
-  };
-
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
-    setNewPostInfo({ newTxt: '', newImg: {} });
-
-    const details = document.getElementById('details');
-    details.removeAttribute('open');
-  };
-
   const updatePost = (e, id) => {
     e.preventDefault();
     const formData = new FormData();
@@ -568,6 +527,47 @@ const PostBox = () => {
     handleCloseModal();
   };
 
+  const likePost = (postId) => {
+    axios
+      .post(
+        'http://localhost:5000/likes',
+        { PostId: postId },
+        {
+          headers: {
+            accessToken: localStorage.getItem('Token'),
+          },
+        }
+      )
+      .then(() => {
+        setForceRender(!forceRender);
+      });
+  };
+
+  const handleOpenModal = (newInfo) => {
+    setModalIsOpen(!modalIsOpen);
+    setNewPostInfo({
+      //mettre à jour ce state permet d'afficher le text du post dans le placeholder du text-area
+      newTxt: newInfo,
+      newImg: newPostInfo.newImg,
+    });
+  };
+
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+    setNewPostInfo({ newTxt: '', newImg: {} });
+
+    const details = document.getElementById('details');
+    details.removeAttribute('open');
+  };
+
+  const handleImgSelection = (e) => {
+    setNewPostInfo({
+      //mettre à jour ce state permet d'afficher le nom du nouveau fichier sélectionné
+      newTxt: newPostInfo.newTxt,
+      newImg: e.target.files[0],
+    });
+  };
+
   useEffect(() => {
     axios
       .get('http://localhost:5000/posts', {
@@ -584,10 +584,11 @@ const PostBox = () => {
           })
         );
       })
-
-      .catch((error) => console.log(error));
+      //si l'utilisateur tente d'acceder à la page sans token valid, on le redirige vers la page de connexion
+      .catch((error) => (document.location.href = 'http://localhost:3000'));
   }, [forceRender]);
 
+  //affichage de l'ensemble des posts
   return listOfPosts.map((post) => (
     <div key={post.id}>
       <StyledPostWapper>
@@ -605,7 +606,7 @@ const PostBox = () => {
           <div className="likeInfo">
             <button
               onClick={() => {
-                HandleALike(post.id);
+                likePost(post.id);
               }}
               aria-label={
                 likedPosts.includes(post.id) ? "j'aime" : "Je n'aime plus" // définition de l'aria label en fonction de si l'utilisateur à déja liké ou non
@@ -630,7 +631,7 @@ const PostBox = () => {
               <summary>...</summary>
               <div className="detailsBtns">
                 <button
-                  onClick={() => handleClickPopup(post.postText)}
+                  onClick={() => handleOpenModal(post.postText)}
                   className="updatePost"
                 >
                   Modifier

@@ -6,7 +6,7 @@ const validateToken = (req, res, next) => {
   if (!accessToken) return res.json({ error: 'utilisateur non connecté' });
 
   try {
-    const validToken = verify(accessToken, `2525`);
+    const validToken = verify(accessToken, process.env.RANDOM_TOKEN_SECRET);
 
     userInfo = { validToken };
 

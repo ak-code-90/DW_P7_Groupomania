@@ -160,7 +160,7 @@ const Signup = () => {
     if (firstpasswordVal === secondPasswordVal) {
       if (regexPassword.test(psw.value) === false) {
         psw.setCustomValidity(
-          'les mots de passe doivent contenir un minimum de 8 caractères, dont au moins une minuscule, une majuscule, un chiffre et un caractère spécial'
+          'Les mots de passe doivent contenir un minimum de 8 caractères, dont au moins une minuscule, une majuscule, un chiffre et un caractère spécial'
         );
         psw.reportValidity(); //permet d'afficher le message d'erreur custom
       } else {
@@ -168,7 +168,7 @@ const Signup = () => {
         handleSubmit();
       }
     } else {
-      psw.setCustomValidity('les mots de passe doivent correspondre');
+      psw.setCustomValidity('Les mots de passe doivent correspondre');
       psw.reportValidity();
     }
   };

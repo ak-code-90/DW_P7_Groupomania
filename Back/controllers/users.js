@@ -52,6 +52,8 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+//ce midleware va permettre d'envoyer toutes les informations d'un utilisateur lorsqu'il est connecté,
+//ces infos seront stockées dans un context React et cela nous évite d'effectuer un trop gros nombres de requêtes.
 exports.checkValidToken = async (req, res) => {
   try {
     const username = userInfo.validToken.username; // on recupère les données utilisateur récupérés dans le middleware d'authentification

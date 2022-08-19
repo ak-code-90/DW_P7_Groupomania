@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
+        //système de validation côté serveur
         is: {
           args: /^.{2,35}$/,
           msg: "Le nom d'utilisateur doit comprendre entre 2 et 15 caractères maximum",
@@ -63,21 +64,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
     });
   };
-
-  // Users.associate = (models) => {
-  //   Users.hasMany(models.Posts, {
-  //     onDelete: 'cascade',
-  //   });
-  // };
-
-  // Posts.belongsTo(Users);
-
-  // Users.associate = (models) => {
-  //   //on associe la table user à la table posts
-  //   Users.hasMany(models.Posts, {
-  //     onDelete: 'cascade',
-  //   });
-  // };
 
   return Users;
 };

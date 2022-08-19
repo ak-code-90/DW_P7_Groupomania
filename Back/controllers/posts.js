@@ -6,7 +6,7 @@ exports.getAllPosts = async (req, res, next) => {
     //récupération de tous les posts de la DB
     const listOfPosts = await Posts.findAll({
       order: [['createdAt', 'DESC']], // création d'une liste de posts dans l'ordre antéchronologique
-      include: [Likes], //on inclut un tableau de likes à chaque post
+      include: [Likes], //ajout d'un tableau de likes à chaque post
     });
 
     //récupération de la liste des likes de l'utilisateur
@@ -27,7 +27,7 @@ exports.createPost = async (req, res) => {
 
     let data = {};
 
-    //récupération des données utilisateur depuis le middleware d'authentification
+    //récupération des données utilisateur depuis le token reçu par le middleware d'authentification
     const username = userInfo.validToken.username;
     const userId = userInfo.validToken.id;
 
@@ -53,7 +53,6 @@ exports.createPost = async (req, res) => {
     //ajout du post à la DB
     await Posts.create(data);
     data.file = file;
-    console.log(data);
     res.json(data);
   } catch (error) {
     res.json(error);

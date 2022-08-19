@@ -17,13 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
 
-    // Enlever cette colonne 'userId' si on veut pourvoir supprimer un compte ainsi que tout ses Posts,commentaires,likes... privilégier des relations entre les différentes tables
     userId: {
       type: DataTypes.UUID,
       allowNull: true,
     },
   });
 
+  //Association de la table posts à la table likes, de cette manière lorsque qu'un post est supprimé tous les likes
+  //qui y sont associés le sont aussi.
   Posts.associate = (models) => {
     Posts.hasMany(models.Likes, {
       onDelete: 'cascade',

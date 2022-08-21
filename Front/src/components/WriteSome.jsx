@@ -125,6 +125,7 @@ const WriteSome = () => {
       formData.append('postImg', postImg);
       formData.append('postText', postTxt);
       formData.append('userPic', authState.userPic);
+      console.log(formData);
 
       axios
         .post('http://localhost:5000/posts', formData, {
@@ -135,7 +136,7 @@ const WriteSome = () => {
         })
         .catch((error) => alert(error.response.data.error));
 
-      form.reset(); // réinitialisation du formulaire après l'envoi
+      form.reset(); // réinitialisation du formulaire et des states après l'envoi
       setPostTxt('');
       setPostImg('');
     }

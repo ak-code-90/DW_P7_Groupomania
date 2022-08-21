@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      // pas de validation du mot de passe côté back-end pour pouvoir laisser le champs libre à Bcrypt ?
       validate: {
         // is: {
         //   args: /^.{8,73}$/, //la longueur max du hash de bcrypt est de 72 caractères.

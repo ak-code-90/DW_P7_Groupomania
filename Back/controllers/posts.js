@@ -24,6 +24,7 @@ exports.getAllPosts = async (req, res, next) => {
 exports.createPost = async (req, res) => {
   try {
     const file = req.file;
+    console.log(file);
 
     let data = {};
 

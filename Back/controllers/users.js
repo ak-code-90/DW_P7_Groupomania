@@ -3,20 +3,28 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.createUser = async (req, res) => {
-  try {
-    const { username, email, password, role } = req.body;
-    bcrypt.hash(password, 10).then(async (hash) => {
-      await Users.create({
-        username: username,
-        email: email,
-        password: hash,
-        role: role,
-        userPic: '',
+  const userExist = await Users.findOne({
+    where: { username: req.body.username },
+  });
+
+  if (userExist) {
+    res.json({ error: "Ce nom d'utilisateur n'est pas disponible 😕" });
+  } else {
+    try {
+      const { username, email, password, role } = req.body;
+      bcrypt.hash(password, 10).then(async (hash) => {
+        await Users.create({
+          username: username,
+          email: email,
+          password: hash,
+          role: role,
+          userPic: '',
+        });
+        res.json('utilisateur inscrit !');
       });
-      res.json('utilisateur inscrit !');
-    });
-  } catch (error) {
-    res.status(400).json({ error });
+    } catch (error) {
+      res.status(400).json({ error });
+    }
   }
 };
 

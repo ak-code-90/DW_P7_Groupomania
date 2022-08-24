@@ -126,6 +126,36 @@ const Signup = () => {
   let regexPassword =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_+&€/()|{}~:!,?.@#\($%\^&\*])(?=.{8,})/;
 
+  // const handleSubmit = (event) => {
+  //   let userData = {};
+  //   userData = {
+  //     username: usernameVal,
+  //     email: emailVal,
+  //     password: firstpasswordVal,
+  //     role: 'isUser',
+  //   };
+
+  //   let data = JSON.stringify(userData);
+  //   console.log(userData);
+
+  //   fetch('http://localhost:5000/auth', {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: data,
+  //   })
+  //     .then(function (response) {
+  //       return response.json();
+  //     })
+  //     .then(() => {
+  //       alert('Votre compte a bien été enregistré');
+  //       document.location.href = 'http://localhost:3000';
+  //     })
+  //     .catch((error) => alert(error.response.data.error));
+  // };
+
   const handleSubmit = (event) => {
     let userData = {};
     userData = {
@@ -136,7 +166,6 @@ const Signup = () => {
     };
 
     let data = JSON.stringify(userData);
-    console.log(userData);
 
     fetch('http://localhost:5000/auth', {
       method: 'POST',
@@ -149,8 +178,10 @@ const Signup = () => {
       .then(function (response) {
         return response.json();
       })
-      .then(() => {
-        alert('Votre compte a bien été enregistré');
+      .then((data) => {
+        data.error
+          ? alert(data.error)
+          : alert('Votre compte a bien été enregistré');
         document.location.href = 'http://localhost:3000';
       })
       .catch((error) => alert(error.response.data.error));

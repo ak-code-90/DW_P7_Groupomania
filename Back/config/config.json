@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "", 
-    "password": "",
+    "username": "root", 
+    "password": "0502",
     "database": "Groupomania",
     "host": "localhost",
     "dialect": "mariadb",
@@ -14,15 +14,15 @@
     
   },
   "test": {
-    "username": "",
-    "password": "",
+    "username": "root",
+    "password": "0502",
     "database": "Groupomania",
     "host": "localhost",
     "dialect": "mariadb"
   },
   "production": {
-    "username": "",
-    "password": "",
+    "username": "root",
+    "password": "0502",
     "database": "Groupomania",
     "host": "localhost",
     "dialect": "mariadb"

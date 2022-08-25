@@ -69,12 +69,23 @@ exports.updatePost = async (req, res) => {
     //recherche d'un post dans la DB qui correspond à celui de la requête
     const postToUpdate = await Posts.findOne({ where: { id: postId } });
 
+    const filename = postToUpdate.image.split('images\\')[1];
+
     //récupération des infos de l'utilisateur via le middleware d'authentification
     const userId = userInfo.validToken.id;
     const userRole = userInfo.validToken.userRole;
 
     //vérification des droits de l'utilisateur
     if (postToUpdate.userId === userId || userRole === 'isAdmin') {
+      if (filename) {
+        //suppréssion de l'image dans le dossier local si le post contient une image
+        fs.unlink(`images\\${filename}`, (err) => {
+          if (err) console.log(err);
+          else {
+            console.log("l'image a bien été supprimé depuis le dossier local");
+          }
+        });
+      }
       //création du nouveau post à stocker dans la DB, selon si l'utilisateur à ajouté une image ou non
       if (req.file) {
         newPost = {
@@ -117,7 +128,6 @@ exports.deletePost = async (req, res) => {
 
     //récupération de l'identifiant de l'image dans la DB
     const filename = postToDelete.image.split('images\\')[1];
-    console.log();
 
     if (postToDelete.userId === userId || userRole === 'isAdmin') {
       if (filename) {

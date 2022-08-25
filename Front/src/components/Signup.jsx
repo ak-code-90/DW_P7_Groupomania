@@ -124,7 +124,7 @@ const Signup = () => {
 
   let psw = document.getElementById('password');
   let regexPassword =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_+&€/()|{}~:!,?.@#\($%\^&\*])(?=.{8,})/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_+&€/()|{}~:!,?.@#($%^&*])(?=.{8,})/;
 
   // const handleSubmit = (event) => {
   //   let userData = {};

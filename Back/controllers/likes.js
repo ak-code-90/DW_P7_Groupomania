@@ -19,6 +19,6 @@ exports.likePost = async (req, res, next) => {
       res.status(200).json({ liked: false });
     }
   } catch (error) {
-    res.json({ error: error });
+    res.json({ error: 'une erreur est survenue...' });
   }
 };

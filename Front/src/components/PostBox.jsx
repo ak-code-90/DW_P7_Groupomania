@@ -246,6 +246,7 @@ const StyledPostWapper = styled.div`
       right: 6px;
       top: 19px;
       width: 45px;
+      gap: 6px;
     }
     .iconWrapper .userIconImg {
       height: 35px;

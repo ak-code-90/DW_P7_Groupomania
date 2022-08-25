@@ -17,14 +17,13 @@ exports.getAllPosts = async (req, res, next) => {
     //envoi des infos récoltées
     res.json({ listOfPosts: listOfPosts, likedPosts: likedPosts });
   } catch (error) {
-    res.send(error);
+    res.json({ error: 'une erreur est survenue...' });
   }
 };
 
 exports.createPost = async (req, res) => {
   try {
     const file = req.file;
-    console.log(file);
 
     let data = {};
 
@@ -56,7 +55,7 @@ exports.createPost = async (req, res) => {
     data.file = file;
     res.json(data);
   } catch (error) {
-    res.json(error);
+    res.json({ error: 'une erreur est survenue...' });
   }
 };
 
@@ -113,7 +112,7 @@ exports.updatePost = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: error });
+    res.status(400).json({ error: 'une erreur est survenue' });
   }
 };
 
@@ -147,6 +146,6 @@ exports.deletePost = async (req, res) => {
       res.status(401).json('Vous ne pouvez pas supprimer ce post');
     }
   } catch (error) {
-    res.status(400).json({ error: error });
+    res.status(400).json({ error: 'une erreur est survenue...' });
   }
 };

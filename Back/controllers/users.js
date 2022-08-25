@@ -23,7 +23,7 @@ exports.createUser = async (req, res) => {
         res.json('utilisateur inscrit !');
       });
     } catch (error) {
-      res.status(400).json({ error });
+      res.status(400).json({ error: 'une erreur est survenue...' });
     }
   }
 };
@@ -56,7 +56,7 @@ exports.loginUser = async (req, res) => {
           });
       });
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(400).json({ error: 'une erreur est survenue...' });
   }
 };
 
@@ -76,6 +76,6 @@ exports.checkValidToken = async (req, res) => {
       userPic: userPic,
     });
   } catch (error) {
-    console.log(error);
+    res.status(400).json({ error: 'une erreur est survenue...' });
   }
 };

@@ -3,7 +3,7 @@ Le but était de construire un réseau social d'entreprise pour l'entreprise fic
 
 • Définition et mise en place de l'environnement technique nécessaire à la réalisation du projet.  
 • Développement d'une interface responsive et accessible avec React  
-• Implémentation de fonctionnalités : Authentifier un utilisateur, maintenir sa session, permettre la création, modification et suppression de posts, système de likes,
+• Implémentation de fonctionnalités : Authentifier un utilisateur, maintenir sa session, permettre la création, modification et suppression de    posts, système de likes,
   rôle administrateur  
 • Construction et consommation d'une API REST  
 • Mise en place d'un stockage de données sécurisé (OWASP) avec une base de données SQL  

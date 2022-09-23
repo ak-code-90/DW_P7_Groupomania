@@ -1,4 +1,4 @@
-﻿# P7 OpenClassRooms - Créez un réseau social d’entreprise
+﻿# Création d'un réseau social d’entreprise
 Le but était de construire un réseau social d'entreprise pour l'entreprise fictive Groupomania :
 
 • Définition et mise en place de l'environnement technique nécessaire à la réalisation du projet.  
